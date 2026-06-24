@@ -57,8 +57,8 @@ Launch the BloodHound GUI. Log in with Neo4j credentials, upload the zip file vi
 ---
 ## Built-in Queries
 
-|Query|Use|
-|---|---|
-|`Find Shortest Paths To Domain Admins`|Maps all logical paths to DA via users, groups, ACLs, GPOs, and hosts. Primary escalation planning query.|
-|`Find Computers with Unsupported Operating Systems`|Identifies legacy hosts (Windows 7, Server 2008, etc.) susceptible to older RCE exploits like MS08-067. Validate they are live before attacking.|
-|`Find Computers where Domain Users are Local Admin`|Identifies hosts where any domain account has local admin rights. Any controlled account can be used to access these hosts and potentially harvest credentials from memory.|
+| Query                                               | Use                                                                                                                                                                         |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Find Shortest Paths To Domain Admins`              | Maps all logical paths to DA via users, groups, ACLs, GPOs, and hosts. Primary escalation planning query.                                                                   |
+| `Find Computers with Unsupported Operating Systems` | Identifies legacy hosts (Windows 7, Server 2008, etc.) susceptible to older RCE exploits like MS08-067. Validate they are live before attacking.                            |
+| `Find Computers where Domain Users are Local Admin` | Identifies hosts where any domain account has local admin rights. Any controlled account can be used to access these hosts and potentially harvest credentials from memory. |
