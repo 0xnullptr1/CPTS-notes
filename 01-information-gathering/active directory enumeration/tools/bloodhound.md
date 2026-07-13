@@ -4,6 +4,18 @@
 - Collected data is uploaded to the GUI and queried via built-in path-finding queries or custom Cypher queries to identify privilege escalation paths to Domain Admin.
 - Even indirect or multi-hop paths (user → group → ACL → host → DA) are surfaced automatically, making it the fastest way to identify non-obvious escalation routes.
 ---
+## Start Docker
+
+```
+sudo systemctl start docker
+```
+
+```
+cd ~/bloodhound-ce
+sudo docker compose up -d
+```
+
+Start the containers.
 ## Collection - Linux
 
 ```
