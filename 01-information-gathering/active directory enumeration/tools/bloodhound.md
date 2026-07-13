@@ -16,6 +16,18 @@ sudo docker compose up -d
 ```
 
 Start the containers.
+
+```
+sudo docker logs bloodhound-ce-bloodhound-1 2>&1 | grep "Initial Password Set To:"
+```
+
+Checks initial password for loggin in at http://localhost:8080
+
+```
+sudo docker compose down
+```
+
+Stops the containers.
 ## Collection - Linux
 
 ```
