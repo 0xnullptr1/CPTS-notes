@@ -24,10 +24,10 @@ sudo docker logs bloodhound-ce-bloodhound-1 2>&1 | grep "Initial Password Set To
 Checks initial password for loggin in at http://localhost:8080
 
 ```
-sudo docker compose down
+sudo docker compose down -v
 ```
 
-Stops the containers.
+Stops the containers, when starting again use the new password with the command above.
 ## Collection - Linux
 
 ```
