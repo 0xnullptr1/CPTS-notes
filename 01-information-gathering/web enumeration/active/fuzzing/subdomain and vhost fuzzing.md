@@ -15,7 +15,7 @@ Adds DNS entry to resolve domain locally.
 ## Subdomain Fuzzing
 
 ```
-ffuf -w <wordlist>:FUZZ -u https://FUZZ.<domain>/
+ffuf -w /home/kali/SecLists/Discovery/DNS/subdomains-top1million-20000.txt:FUZZ -u https://FUZZ.<domain>/
 ```
 
 Discovers public subdomains via DNS resolution.
