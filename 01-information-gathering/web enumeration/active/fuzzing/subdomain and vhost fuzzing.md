@@ -24,7 +24,7 @@ Discovers public subdomains via DNS resolution.
 ## VHost Fuzzing
 
 ```
-ffuf -w /home/kali/SecLists/Discovery/DNS/subdomains-top1million-20000.txt:FUZZ:FUZZ -u http://<domain>:<port>/ -H 'Host: FUZZ.<domain>' -fs <size>
+ffuf -w /home/kali/SecLists/Discovery/DNS/subdomains-top1million-20000.txt -u http://<domain>:<port>/ -H 'Host: FUZZ.<domain>' -fs <size>
 ```
 
 Discovers virtual hosts by fuzzing the Host header. `-fs` filters responses by size to hide false positives.
