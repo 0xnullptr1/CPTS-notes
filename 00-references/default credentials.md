@@ -3,22 +3,22 @@
 ---
 ## Common Applications
 
-|Product|Username|Password|
-|---|---|---|
-|Tomcat Manager|tomcat|tomcat|
-|Tomcat Manager|admin|admin|
-|Jenkins|admin|_(set on first login)_|
-|Splunk|admin|changeme|
-|PRTG Network Monitor|prtgadmin|prtgadmin|
-|Nagios XI|nagiosadmin|nagios|
-|WordPress|admin|admin|
-|Joomla|admin|admin|
-|Drupal|admin|admin|
-|phpMyAdmin|root|_(blank)_|
-|Weblogic|weblogic|weblogic|
-|GitLab|root|5iveL!fe|
-|osTicket|ostadmin|Admin1234!|
-|ColdFusion|admin|admin|
+| Product              | Username    | Password               |
+| -------------------- | ----------- | ---------------------- |
+| Tomcat Manager       | tomcat      | tomcat                 |
+| Tomcat Manager       | admin       | admin                  |
+| Jenkins              | admin       | _(set on first login)_ |
+| Splunk               | admin       | changeme               |
+| PRTG Network Monitor | prtgadmin   | prtgadmin              |
+| Nagios XI            | nagiosadmin | nagios                 |
+| WordPress            | admin       | admin                  |
+| Joomla               | admin       | admin                  |
+| Drupal               | admin       | admin                  |
+| phpMyAdmin           | root        | _(blank)_              |
+| Weblogic             | weblogic    | weblogic               |
+| GitLab               | root        | 5iveL!fe               |
+| osTicket             | ostadmin    | Admin1234!             |
+| ColdFusion           | admin       | admin                  |
 
 ---
 ## Routers
