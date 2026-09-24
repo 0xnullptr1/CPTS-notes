@@ -31,7 +31,7 @@ Stops the containers, when starting again use the new password with the command 
 ## Collection - Linux
 
 ```
-sudo bloodhound-python -u <user> -p <password> -ns <dc-ip> -d <domain> -c all
+sudo bloodhound-python -u <user> -p <password> -ns <dc-ip> -d <domain> -c all --zip
 ```
 
 Run the BloodHound ingestor from a Linux attack host with valid domain credentials. `-ns` sets the nameserver to the domain controller, `-d` specifies the target domain, `-c all` runs all collection methods. Outputs JSON files in the current directory named by date and object type.
