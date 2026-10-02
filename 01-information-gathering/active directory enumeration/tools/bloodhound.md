@@ -1,5 +1,5 @@
 **Overview:**
-- BloodHound ingests AD data (users, groups, computers, GPOs, ACLs, trusts, sessions, local admin rights, RDP/WinRM access) and maps attack paths using graph theory.
+	- BloodHound ingests AD data (users, groups, computers, GPOs, ACLs, trusts, sessions, local admin rights, RDP/WinRM access) and maps attack paths using graph theory.
 - Two components: a collector (BloodHound.py for Linux, SharpHound for Windows) that outputs JSON files, and the BloodHound GUI backed by a Neo4j graph database.
 - Collected data is uploaded to the GUI and queried via built-in path-finding queries or custom Cypher queries to identify privilege escalation paths to Domain Admin.
 - Even indirect or multi-hop paths (user → group → ACL → host → DA) are surfaced automatically, making it the fastest way to identify non-obvious escalation routes.
