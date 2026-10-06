@@ -15,12 +15,12 @@
 ---
 ## SCP
 
-|Operation|Command|Platform|
-|---|---|---|
-|Download|`scp <user>@<target>:/tmp/<file> /tmp/<file>`|Linux|
-|Download|`scp <user>@<target>:/tmp/<file> C:\Temp\<file>`|Windows|
-|Upload|`scp /tmp/<file> <user>@<target>:/tmp/<file>`|Linux|
-|Upload|`scp C:\Temp\<file> <user>@<target>:/tmp/<file>`|Windows|
+| Operation | Command                                          | Platform |
+| --------- | ------------------------------------------------ | -------- |
+| Download  | `scp <user>@<target>:/tmp/<file> /tmp/<file>`    | Linux    |
+| Download  | `scp <user>@<target>:/tmp/<file> C:\Temp\<file>` | Windows  |
+| Upload    | `scp /tmp/<file> <user>@<target>:/tmp/<file>`    | Linux    |
+| Upload    | `scp C:\Temp\<file> <user>@<target>:/tmp/<file>` | Windows  |
 
 ---
 ## SMB
