@@ -1,4 +1,4 @@
-**Overview:**
+_**Overview:**
 - Extracts technical details about web server software, versions, and underlying technologies from HTTP responses and page content.
 - Knowing the exact stack narrows exploits to those affecting specific versions, increasing compromise probability significantly.
 - Exposes misconfigured or outdated software that broader recon methods would miss.
