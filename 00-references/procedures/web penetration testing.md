@@ -2,7 +2,7 @@
 
 - Identify the target's IP address, hosting provider, and ASN.
 - Enumerate DNS records (A, AAAA, MX, TXT, NS, CNAME).
-- Perform subdomain enumeration
+- Perform subdomain enumeration.
 - Check for virtual host routing differences (same IP, different `Host` header).
 - Check WHOIS data for registrant details and related domains.
 - Search for exposed source code (GitHub, GitLab, pastebin dumps).
