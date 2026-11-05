@@ -78,9 +78,8 @@
 - **LDAP / XPath Injection**
     - Test login and search forms backed by directory services with wildcard and boolean payloads.
 - **Server-Side Template Injection (SSTI)**
-    - Identify the template engine via polyglot payloads (`${{<%[%'"}}%\`)
-- Escalate from reflection to remote code execution based on the identified engine.
-
+    - Identify the template engine via polyglot payloads (`${{<%[%'"}}%`).
+    - Escalate from reflection to remote code execution based on the identified engine.
 - **HTTP Header / Host Header Injection**
     - Test for injection via `X-Forwarded-For`, `X-Forwarded-Host`, and `Host` headers (cache poisoning, password reset poisoning, SSRF pivot).
 
