@@ -78,7 +78,7 @@
 - **LDAP / XPath Injection**
     - Test login and search forms backed by directory services with wildcard and boolean payloads.
 - **Server-Side Template Injection (SSTI)**
-    - Identify the template engine via polyglot payloads (`${{<%[%'"}}%`).
+    - Identify the template engine via polyglot payloads
     - Escalate from reflection to remote code execution based on the identified engine.
 - **HTTP Header / Host Header Injection**
     - Test for injection via `X-Forwarded-For`, `X-Forwarded-Host`, and `Host` headers (cache poisoning, password reset poisoning, SSRF pivot).
@@ -161,7 +161,7 @@
 - Test API versioning for deprecated/unpatched endpoints still reachable (`/v1/` vs `/v2/`).
 - Test authentication consistency between the web app and its API (API key leakage, missing auth on API-only endpoints).
 
-## 16 - Source Code Review (Whitebox / Grey-box)
+## 16 - Source Code Review
 
 - Search the codebase for hardcoded credentials, API keys, and secrets.
 - Identify use of dangerous functions (`eval`, `exec`, `unserialize`, raw SQL concatenation).
@@ -169,11 +169,3 @@
 - Review access-control checks for missing or inconsistent enforcement across endpoints.
 - Trace user input from source to sink for each vulnerability class above.
 - Review third-party/vendored library versions against known CVEs.
-
-## 17 - Post-Exploitation & Reporting
-
-- Confirm and document impact for every finding (data accessed, actions performed, privilege gained).
-- Attempt to chain lower-severity findings into higher-impact attack paths.
-- Capture clean proof-of-concept requests/responses (Burp) for each confirmed vulnerability.
-- Check for lateral movement opportunities if the web app host is also accessible at the OS level (ties into host-based PrivEsc methodology).
-- Clean up any uploaded webshells, test accounts, or planted files before closing out testing.

@@ -12,7 +12,7 @@ Attempt all four passive methods. No single method is guaranteed to return all u
 
 - Attempt user enumeration via SMB null authentication.
 - Attempt user enumeration via LDAP anonymous bind.
-- Attempt user enumeration via RPCClient null session.
+(Whitebox / Grey-box)- Attempt user enumeration via RPCClient null session.
 - Attempt user enumeration via RID brute-forcing.
 - Attempt username validation via Kerbruting. Requires no credentials and generates minimal noise. Useful when null session methods are locked down.
 
