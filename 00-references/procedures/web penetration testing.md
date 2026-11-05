@@ -1,14 +1,10 @@
 ## 1 - Information Gathering
 
-- Identify the target's IP address, hosting provider, and ASN.
+- Identify the target's IP address.
 - Enumerate DNS records (A, AAAA, MX, TXT, NS, CNAME).
 - Perform subdomain enumeration.
 - Check for virtual host routing differences (same IP, different `Host` header).
-- Check WHOIS data for registrant details and related domains.
-- Search for exposed source code (GitHub, GitLab, pastebin dumps).
-- Search Google dorks and Wayback Machine for old/forgotten endpoints.
 - Check for a `robots.txt`, `sitemap.xml`, and `security.txt`.
-- Check for cloud storage buckets tied to the domain (S3, Azure Blob, GCP Storage).
 
 ## 2 - Web Server & Technology Enumeration
 
@@ -48,7 +44,6 @@
 - Test "remember me" functionality for predictable or non-expiring tokens.
 - Check for authentication bypass via SQL injection, NoSQL injection, or logic flaws (e.g., `admin'--`).
 - Check for JWT misconfiguration (`alg: none`, weak signing secret, key confusion, missing signature verification).
-- Check OAuth/SSO flows for redirect_uri manipulation, state parameter misuse, and token leakage.
 
 ## 5 - Session Management
 
@@ -76,7 +71,7 @@
 - **LDAP / XPath Injection**
     - Test login and search forms backed by directory services with wildcard and boolean payloads.
 - **Server-Side Template Injection (SSTI)**
-    - Identify the template engine via polyglot payloads
+    - Identify the template engine via polyglot payloads.
     - Escalate from reflection to remote code execution based on the identified engine.
 - **HTTP Header / Host Header Injection**
     - Test for injection via `X-Forwarded-For`, `X-Forwarded-Host`, and `Host` headers (cache poisoning, password reset poisoning, SSRF pivot).
@@ -104,7 +99,7 @@
 - Test for stored XSS in persisted data (comments, profile fields, file names, support tickets).
 - Test for DOM-based XSS by reviewing client-side JS sinks (`innerHTML`, `document.write`, `eval`, `location`).
 - Test filter/WAF bypass techniques (encoding, case variation, event handlers, polyglots).
-- Confirm impact via cookie theft, session hijacking, or forced actions (BeEF hook).
+- Confirm impact via cookie theft or session hijacking.
 
 ## 10 - Cross-Site Request Forgery (CSRF)
 
@@ -138,7 +133,6 @@
 - Test for mass assignment (adding unexpected parameters like `isAdmin=true` to requests).
 - Test multi-step processes for workflow bypass (skipping payment/approval steps).
 - Test rate limiting on sensitive actions (login, OTP, coupon codes, financial transactions).
-- Test for race conditions in state-changing operations (double-spend, duplicate redemption).
 
 ## 14 - CMS & Third-Party Software
 
@@ -155,8 +149,6 @@
 - Test for broken object-level authorization (BOLA/IDOR) across API resources.
 - Test for excessive data exposure in API responses (fields not used by the front end).
 - Test for missing rate limiting and resource exhaustion.
-- Test GraphQL-specific issues: introspection enabled in production, batching attacks, deeply nested query DoS.
-- Test API versioning for deprecated/unpatched endpoints still reachable (`/v1/` vs `/v2/`).
 - Test authentication consistency between the web app and its API (API key leakage, missing auth on API-only endpoints).
 
 ## 16 - Source Code Review
