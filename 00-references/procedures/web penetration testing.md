@@ -2,14 +2,13 @@
 
 - Identify the target's IP address, hosting provider, and ASN.
 - Enumerate DNS records (A, AAAA, MX, TXT, NS, CNAME).
-- Perform subdomain enumeration (passive: crt.sh, VirusTotal, Shodan; active: brute-force with a wordlist).
+- Perform subdomain enumeration
 - Check for virtual host routing differences (same IP, different `Host` header).
 - Check WHOIS data for registrant details and related domains.
 - Search for exposed source code (GitHub, GitLab, pastebin dumps).
 - Search Google dorks and Wayback Machine for old/forgotten endpoints.
 - Check for a `robots.txt`, `sitemap.xml`, and `security.txt`.
 - Check for cloud storage buckets tied to the domain (S3, Azure Blob, GCP Storage).
-- Identify third-party integrations (CDN, analytics, payment processors) — may expand attack surface.
 
 ## 2 - Web Server & Technology Enumeration
 
@@ -19,7 +18,6 @@
 - Enumerate supported HTTP methods (`OPTIONS`, `PUT`, `DELETE`, `TRACE`).
 - Check for verbose error messages (stack traces, debug mode enabled).
 - Identify the TLS/SSL configuration; check for weak ciphers and expired/misconfigured certificates.
-- Check for a WAF/reverse proxy and attempt to fingerprint and bypass it.
 - Look for default or sample content left on the server (install scripts, default admin pages, README files).
 
 ## 3 - Content Discovery & Crawling
