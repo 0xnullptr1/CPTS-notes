@@ -19,4 +19,3 @@
 **Usernames**
 - /home/kali/SecLists/Usernames/xato-net-10-million-usernames.txt
 - /home/kali/SecLists/Usernames/top-usernames-shortlist.txt
-
