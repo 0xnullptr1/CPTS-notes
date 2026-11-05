@@ -60,7 +60,7 @@ Run SharpHound on every newly compromised host immediately. Review outbound Bloo
 
 ---
 
-## 5 - Domain Dominance
+## 5 - Domain Compromise
 
 Once Domain Admin or equivalent rights are obtained.
 
