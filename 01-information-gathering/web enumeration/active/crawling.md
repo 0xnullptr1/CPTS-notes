@@ -6,7 +6,7 @@
 ---
 ## Installation
 
-```
+```bash
 wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip
 unzip ReconSpider.zip
 ```
@@ -16,7 +16,7 @@ Downloads and extracts ReconSpider.
 ---
 ## Crawling
 
-```
+```bash
 python3 ReconSpider.py <target>
 ```
 

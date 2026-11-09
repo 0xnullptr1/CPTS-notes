@@ -6,7 +6,7 @@ _**Overview:**
 ---
 ## Banner Grabbing
 
-```
+```bash
 curl -I <target>
 ```
 
@@ -15,7 +15,7 @@ curl -I <target>
 ---
 ## WAF Detection
 
-```
+```bash
 wafw00f <target>
 ```
 
