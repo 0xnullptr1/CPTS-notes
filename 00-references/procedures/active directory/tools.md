@@ -1,47 +1,47 @@
 
-|Tool|Description|
-|---|---|
-|PowerView / SharpView|Situational awareness in AD. Replacement for Windows `net*` commands. Useful for targeting specific users, checking new credential access, and finding Kerberoastable/ASREPRoastable users.|
-|BloodHound|Visually maps AD relationships and attack paths. Ingests data from SharpHound or BloodHound.py into a graph database for analysis.|
-|SharpHound|C# BloodHound data collector. Gathers users, groups, computers, ACLs, GPOs, sessions, and more. Outputs JSON for BloodHound ingestion.|
-|BloodHound.py|Python BloodHound ingestor based on Impacket. Runs from a non-domain-joined host. Supports most BloodHound collection methods.|
-|Kerbrute|Go tool for AD account enumeration, password spraying, and brute-forcing via Kerberos pre-authentication.|
-|Impacket|Python toolkit for interacting with network protocols. Contains scripts for AD enumeration and attacks (GetUserSPNs, GetNPUsers, secretsdump, psexec, etc.).|
-|Responder|LLMNR, NBT-NS, and MDNS poisoner for capturing NTLMv2 hashes.|
-|Inveigh / InveighZero|PowerShell and C# alternatives to Responder for network spoofing and poisoning attacks.|
-|NetExec (NXC)|Enumeration, attack, and post-exploitation toolkit over SMB, WMI, WinRM, and MSSQL.|
-|Rubeus|C# tool for Kerberos abuse (Kerberoasting, ASREPRoasting, pass-the-ticket, etc.).|
-|Mimikatz|Credential extraction tool. Performs pass-the-hash, plaintext password extraction, and Kerberos ticket dumping from memory.|
-|rpcclient|Samba suite tool for AD enumeration via RPC (user/group enumeration, SID lookups, etc.).|
-|ldapsearch|Built-in CLI tool for querying LDAP. Used for anonymous bind enumeration and authenticated AD queries.|
-|windapsearch|Python script for enumerating AD users, groups, and computers via LDAP queries.|
-|enum4linux / enum4linux-ng|Tools for enumerating information from Windows and Samba systems via SMB/RPC.|
-|smbmap|SMB share enumeration across a domain.|
-|Snaffler|Searches accessible file shares on domain computers for credentials and sensitive files.|
-|LAPSToolkit|PowerShell toolkit leveraging PowerView to audit and attack LAPS-deployed AD environments.|
-|DomainPasswordSpray.ps1|PowerShell tool for domain password spraying.|
-|adidnsdump|Enumerates and dumps DNS records from a domain. Similar to a DNS zone transfer.|
-|gpp-decrypt|Extracts usernames and passwords from Group Policy Preferences files.|
-|lookupsid.py|Impacket tool for SID brute-forcing.|
-|secretsdump.py|Impacket tool to remotely dump SAM and LSA secrets.|
-|psexec.py|Impacket tool providing semi-interactive shell execution via SMB.|
-|wmiexec.py|Impacket tool for command execution over WMI.|
-|evil-winrm|Interactive shell over WinRM.|
-|mssqlclient.py|Impacket tool for interacting with MSSQL databases.|
-|smbserver.py|Impacket tool for standing up a simple SMB server. Useful for file transfers within a network.|
-|ntlmrelayx.py|Impacket tool for SMB relay attacks.|
-|noPac.py|Exploit for CVE-2021-42278 and CVE-2021-42287. Impersonates Domain Admin from a standard domain user.|
-|CVE-2021-1675.py|PrintNightmare PoC in Python.|
-|PetitPotam.py|PoC for CVE-2021-36942. Coerces Windows hosts to authenticate via MS-EFSRPC.|
-|gettgtpkinit.py|PKINITtools script for manipulating certificates and TGTs.|
-|getnthash.py|PKINITtools script to request a PAC for the current user using an existing TGT via U2U.|
-|ticketer.py|Impacket tool for creating and customizing TGT/TGS tickets. Used for Golden Ticket attacks and trust escalation.|
-|raiseChild.py|Impacket tool for automated child-to-parent domain privilege escalation.|
-|rpcdump.py|Impacket RPC endpoint mapper.|
-|setspn.exe|Windows built-in tool to read, add, modify, and delete SPNs on AD service accounts.|
-|GetUserSPNs.py|Impacket tool for finding SPNs tied to normal user accounts. Used for Kerberoasting.|
-|GetNPUsers.py|Impacket tool for ASREPRoasting. Lists and obtains AS-REP hashes for accounts without pre-authentication required.|
-|AD Explorer|Sysinternals AD viewer and editor. Can snapshot an AD database for offline analysis and diff two snapshots.|
-|PingCastle|AD security auditing tool based on risk assessment and maturity framework.|
-|Group3r|Audits AD Group Policy Objects for security misconfigurations.|
-|ADRecon|Extracts AD environment data and outputs to Excel for analysis.|
+| Tool                       | Description                                                                                                                                                                                 |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PowerView / SharpView      | Situational awareness in AD. Replacement for Windows `net*` commands. Useful for targeting specific users, checking new credential access, and finding Kerberoastable/ASREPRoastable users. |
+| BloodHound                 | Visually maps AD relationships and attack paths. Ingests data from SharpHound or BloodHound.py into a graph database for analysis.                                                          |
+| SharpHound                 | C# BloodHound data collector. Gathers users, groups, computers, ACLs, GPOs, sessions, and more. Outputs JSON for BloodHound ingestion.                                                      |
+| BloodHound.py              | Python BloodHound ingestor based on Impacket. Runs from a non-domain-joined host. Supports most BloodHound collection methods.                                                              |
+| Kerbrute                   | Go tool for AD account enumeration, password spraying, and brute-forcing via Kerberos pre-authentication.                                                                                   |
+| Impacket                   | Python toolkit for interacting with network protocols. Contains scripts for AD enumeration and attacks (GetUserSPNs, GetNPUsers, secretsdump, psexec, etc.).                                |
+| Responder                  | LLMNR, NBT-NS, and MDNS poisoner for capturing NTLMv2 hashes.                                                                                                                               |
+| Inveigh / InveighZero      | PowerShell and C# alternatives to Responder for network spoofing and poisoning attacks.                                                                                                     |
+| NetExec (NXC)              | Enumeration, attack, and post-exploitation toolkit over SMB, WMI, WinRM, and MSSQL.                                                                                                         |
+| Rubeus                     | C# tool for Kerberos abuse (Kerberoasting, ASREPRoasting, pass-the-ticket, etc.).                                                                                                           |
+| Mimikatz                   | Credential extraction tool. Performs pass-the-hash, plaintext password extraction, and Kerberos ticket dumping from memory.                                                                 |
+| rpcclient                  | Samba suite tool for AD enumeration via RPC (user/group enumeration, SID lookups, etc.).                                                                                                    |
+| ldapsearch                 | Built-in CLI tool for querying LDAP. Used for anonymous bind enumeration and authenticated AD queries.                                                                                      |
+| windapsearch               | Python script for enumerating AD users, groups, and computers via LDAP queries.                                                                                                             |
+| enum4linux / enum4linux-ng | Tools for enumerating information from Windows and Samba systems via SMB/RPC.                                                                                                               |
+| smbmap                     | SMB share enumeration across a domain.                                                                                                                                                      |
+| Snaffler                   | Searches accessible file shares on domain computers for credentials and sensitive files.                                                                                                    |
+| LAPSToolkit                | PowerShell toolkit leveraging PowerView to audit and attack LAPS-deployed AD environments.                                                                                                  |
+| DomainPasswordSpray.ps1    | PowerShell tool for domain password spraying.                                                                                                                                               |
+| adidnsdump                 | Enumerates and dumps DNS records from a domain. Similar to a DNS zone transfer.                                                                                                             |
+| gpp-decrypt                | Extracts usernames and passwords from Group Policy Preferences files.                                                                                                                       |
+| lookupsid.py               | Impacket tool for SID brute-forcing.                                                                                                                                                        |
+| secretsdump.py             | Impacket tool to remotely dump SAM and LSA secrets.                                                                                                                                         |
+| psexec.py                  | Impacket tool providing semi-interactive shell execution via SMB.                                                                                                                           |
+| wmiexec.py                 | Impacket tool for command execution over WMI.                                                                                                                                               |
+| evil-winrm                 | Interactive shell over WinRM.                                                                                                                                                               |
+| mssqlclient.py             | Impacket tool for interacting with MSSQL databases.                                                                                                                                         |
+| smbserver.py               | Impacket tool for standing up a simple SMB server. Useful for file transfers within a network.                                                                                              |
+| ntlmrelayx.py              | Impacket tool for SMB relay attacks.                                                                                                                                                        |
+| noPac.py                   | Exploit for CVE-2021-42278 and CVE-2021-42287. Impersonates Domain Admin from a standard domain user.                                                                                       |
+| CVE-2021-1675.py           | PrintNightmare PoC in Python.                                                                                                                                                               |
+| PetitPotam.py              | PoC for CVE-2021-36942. Coerces Windows hosts to authenticate via MS-EFSRPC.                                                                                                                |
+| gettgtpkinit.py            | PKINITtools script for manipulating certificates and TGTs.                                                                                                                                  |
+| getnthash.py               | PKINITtools script to request a PAC for the current user using an existing TGT via U2U.                                                                                                     |
+| ticketer.py                | Impacket tool for creating and customizing TGT/TGS tickets. Used for Golden Ticket attacks and trust escalation.                                                                            |
+| raiseChild.py              | Impacket tool for automated child-to-parent domain privilege escalation.                                                                                                                    |
+| rpcdump.py                 | Impacket RPC endpoint mapper.                                                                                                                                                               |
+| setspn.exe                 | Windows built-in tool to read, add, modify, and delete SPNs on AD service accounts.                                                                                                         |
+| GetUserSPNs.py             | Impacket tool for finding SPNs tied to normal user accounts. Used for Kerberoasting.                                                                                                        |
+| GetNPUsers.py              | Impacket tool for ASREPRoasting. Lists and obtains AS-REP hashes for accounts without pre-authentication required.                                                                          |
+| AD Explorer                | Sysinternals AD viewer and editor. Can snapshot an AD database for offline analysis and diff two snapshots.                                                                                 |
+| PingCastle                 | AD security auditing tool based on risk assessment and maturity framework.                                                                                                                  |
+| Group3r                    | Audits AD Group Policy Objects for security misconfigurations.                                                                                                                              |
+| ADRecon                    | Extracts AD environment data and outputs to Excel for analysis.                                                                                                                             |
