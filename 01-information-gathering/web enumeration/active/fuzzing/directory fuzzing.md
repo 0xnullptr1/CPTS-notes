@@ -5,14 +5,14 @@
 ---
 ## Directory Fuzzing
 
-```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/FUZZ
+```bash
+ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/FUZZ
 ```
 
 Fuzzes directories at root level.
 
-```
-gobuster dir -u http://<target>:<port> -w <wordlist>
+```bash
+gobuster dir -u http://<target>:<port> -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt
 ```
 
 Alternative to ffuf to discover directories. The `-u` flag specifies the target URL. The `-w` flag specifies the wordlist file. 
@@ -20,8 +20,8 @@ Alternative to ffuf to discover directories. The `-u` flag specifies the target 
 ---
 ## Extension Fuzzing
 
-```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/indexFUZZ
+```bash
+ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/indexFUZZ
 ```
 
 Fuzzes file extensions (e.g., index.php, index.html).
@@ -29,8 +29,8 @@ Fuzzes file extensions (e.g., index.php, index.html).
 ---
 ## Page Fuzzing
 
-```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/blog/FUZZ.php
+```bash
+ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/blog/FUZZ.php
 ```
 
 Fuzzes page names within a known directory.
@@ -38,8 +38,8 @@ Fuzzes page names within a known directory.
 ---
 ## Recursive Fuzzing
 
-```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/FUZZ -recursion -recursion-depth 1 -e .php -v
+```bash
+ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/FUZZ -recursion -recursion-depth 1 -e .php -v
 ```
 
 Recursively fuzzes directories. `-recursion-depth` controls depth, `-e` adds extensions, `-v` verbose output.
