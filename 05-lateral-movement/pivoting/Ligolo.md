@@ -153,7 +153,7 @@ Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the ma
 **6. Pull a file from Kali through Target 1's internal IP**
 
 ```powershell
-wget http://172.16.5.10/file -outfile ph03n1x
+wget http://172.16.5.10/file -outfile file
 ```
 
 Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever you're hosting on Kali (e.g. `python3 -m http.server`).
@@ -176,9 +176,9 @@ Confirms Layer 2 is working end-to-end.
 
 ---
 
-## Local Port Forwarding to Kali (Reach a Single Internal Service — No Proxychains)
+## Local Port Forwarding to Kali
 
-Use this when you just need one internal-only service/port (e.g. an internal web app) reachable directly from a Kali tool or Firefox.
+This is used when only one internal-only service/port (e.g. an internal web app) needs to be reachable directly from a Kali tool or Firefox.
 
 **1. Create a dedicated TUN interface**
 
@@ -212,5 +212,3 @@ sudo ip route add 240.0.0.1/32 dev ligolo
 ```bash
 nmap -p- 240.0.0.1
 ```
-
-You should see ports that were previously only visible from the target itself — now directly scannable/usable from Kali.
