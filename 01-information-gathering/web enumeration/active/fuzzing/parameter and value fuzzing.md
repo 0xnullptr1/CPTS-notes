@@ -6,7 +6,7 @@
 ## GET Parameters
 
 ```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/admin/admin.php?FUZZ=<test-value> -fs <size>
+ffuf -w /home/kali/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php?FUZZ=<test-value> -fs <size>
 ```
 
 Fuzzes GET parameter names. `-fs` filters response size to hide false positives.
@@ -14,7 +14,7 @@ Fuzzes GET parameter names. `-fs` filters response size to hide false positives.
 ## POST Parameters
 
 ```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/admin/admin.php -X POST -d 'FUZZ=<test-value>' -H 'Content-Type: application/x-www-form-urlencoded' -fs <size>
+ffuf -w /home/kali/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php -X POST -d 'FUZZ=<test-value>' -H 'Content-Type: application/x-www-form-urlencoded' -fs <size>
 ```
 
 Fuzzes POST parameter names.
