@@ -43,7 +43,7 @@ webapps/customapp
 ---
 ## Enumeration
 
-```
+```bash
 gobuster dir -u http://<target>:<port>/ -w /usr/share/dirbuster/wordlists/directory-list-2.3-small.txt
 ```
 

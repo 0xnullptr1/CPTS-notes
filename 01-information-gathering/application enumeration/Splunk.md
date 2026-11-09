@@ -7,7 +7,7 @@
 
 Splunk web runs on port `8000` by default. Port `8089` is the management port for the Splunk REST API.
 
-```
+```bash
 sudo nmap -sV <target>
 ```
 

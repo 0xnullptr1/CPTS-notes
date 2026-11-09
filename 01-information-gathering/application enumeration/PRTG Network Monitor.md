@@ -6,13 +6,13 @@
 ---
 ## Discovery
 
-```
+```bash
 sudo nmap -sV -p- --open -T4 <target>
 ```
 
 PRTG is typically found on ports 80, 443, or 8080. Identified via Nmap as `Indy httpd (Paessler PRTG bandwidth monitor)`.
 
-```
+```bash
 curl -s http://<target>:<port>/index.htm -A "Mozilla/5.0 (compatible; MSIE 7.01; Windows NT 5.0)" | grep version
 ```
 

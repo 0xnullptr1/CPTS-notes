@@ -104,7 +104,6 @@ ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(cn=Domain Admins
 
 ## Enumerate computers
 
-bash
 
 ```bash
 ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(objectclass=computer)" cn dNSHostName
@@ -112,9 +111,10 @@ ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(objectclass=comp
 
 ---
 
-## Search for a specific attribute (e.g. description field password leaks)
+## Search for a specific attribute 
 
-bash
+(for example description field password leaks)
+
 
 ```bash
 ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(objectclass=user)" description
@@ -124,7 +124,6 @@ ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(objectclass=user
 
 ## Search for accounts with passwords never expiring / specific userAccountControl flags
 
-bash
 
 ```bash
 ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(userAccountControl=66048)" sAMAccountName
@@ -134,7 +133,6 @@ ldapsearch -H ldap://10.10.11.20:389 -x -b "dc=corp,dc=local" "(userAccountContr
 
 ## Using ldapwhoami to verify/test a bind
 
-bash
 
 ```bash
 ldapwhoami -H ldap://10.10.11.20:389 -D "cn=jdoe,dc=corp,dc=local" -w Passw0rd123
@@ -144,7 +142,6 @@ ldapwhoami -H ldap://10.10.11.20:389 -D "cn=jdoe,dc=corp,dc=local" -w Passw0rd12
 
 ## LDAPS (LDAP over SSL/TLS, port 636)
 
-bash
 
 ```bash
 ldapsearch -H ldaps://10.10.11.20:636 -x -b "dc=corp,dc=local" "(objectclass=*)"
@@ -152,10 +149,7 @@ ldapsearch -H ldaps://10.10.11.20:636 -x -b "dc=corp,dc=local" "(objectclass=*)"
 
 If certificate validation fails during testing:
 
-bash
 
 ```bash
 LDAPTLS_REQCERT=never ldapsearch -H ldaps://10.10.11.20:636 -x -b "dc=corp,dc=local" "(objectclass=*)"
 ```
-
----
