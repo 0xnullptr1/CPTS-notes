@@ -17,7 +17,7 @@
 ---
 ## Passive Traffic Analysis
 
-```
+```bash
 sudo tcpdump -i <interface>
 ```
 
@@ -28,8 +28,8 @@ Capture raw traffic on the interface to identify live hosts and network topology
 
 >**Responder:**
 
-```
-sudo responder -I <interface>
+```bash
+sudo responder -I tun0
 ```
 
 Poison LLMNR, NBT-NS, and MDNS queries on the interface to capture NTLMv2 hashes from hosts attempting name resolution. Run during business hours to maximize capture volume.
@@ -46,13 +46,13 @@ PowerShell equivalent of Responder for Windows-based attack hosts. `-NBNS Y` ena
 ---
 ## Host Discovery
 
-```
+```bash
 fping -asgq <CIDR>
 ```
 
 Ping sweep across the target subnet. `-a` shows only alive hosts, `-s` prints summary stats, `-g` generates the target list from the CIDR range, `-q` suppresses per-target output. Feed results into a host list for nmap.
 
-```
+```bash
 for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
 ```
 

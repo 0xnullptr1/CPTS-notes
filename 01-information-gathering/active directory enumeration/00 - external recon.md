@@ -29,7 +29,7 @@
 ---
 ## ASN and IP Enumeration
 
-```
+```bash
 nslookup <domain>
 ```
 
@@ -53,7 +53,7 @@ Surface email addresses indexed by search engines. Reveals naming convention (e.
 ---
 ## Username Enumeration
 
-```
+```bash
 python3 linkedin2username.py -c <company-name>
 ```
 
@@ -62,7 +62,7 @@ Scrape LinkedIn to generate username permutations (flast, first.last, f.last, et
 ---
 ## Breach Data
 
-```
+```bash
 sudo python3 dehashed.py -q <domain> -p
 ```
 
