@@ -7,13 +7,13 @@
 ---
 ## RDP
 
-```
+```powershell
 Get-NetLocalGroupMember -ComputerName <target> -GroupName "Remote Desktop Users"
 ```
 
 Enumerates members of the Remote Desktop Users group on a target host using PowerView.
 
-```
+```powershell
 xfreerdp /v:<target-ip> /u:<user> /p:<password> /drive:share,<local-path>
 ```
 
@@ -22,7 +22,7 @@ Connects to the target via RDP and mounts a local directory as a shared drive fo
 ---
 ## WinRM
 
-```
+```powershell
 Get-NetLocalGroupMember -ComputerName <target> -GroupName "Remote Management Users"
 ```
 
@@ -36,7 +36,7 @@ BloodHound Cypher query to identify all users with WinRM access across the domai
 
 >**Windows:**
 
-```
+```powershell
 $password = ConvertTo-SecureString "<password>" -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential ("<domain>\<user>", $password)
 Enter-PSSession -ComputerName <target> -Credential $cred
@@ -46,7 +46,7 @@ Creates a credential object and establishes an interactive PowerShell session ov
 
 >**Linux:**
 
-```
+```bash
 evil-winrm -i <target-ip> -u <user> -p <password>
 ```
 
@@ -63,14 +63,14 @@ BloodHound Cypher query to identify users with SQL Admin rights across the domai
 
 >**Windows:**
 
-```
+```powershell
 Import-Module .\PowerUpSQL.ps1
 Get-SQLInstanceDomain
 ```
 
 Imports PowerUpSQL and enumerates all SQL Server instances registered in the domain.
 
-```
+```powershell
 Get-SQLQuery -Verbose -Instance "<target-ip>,1433" -username "<domain>\<user>" -password "<password>" -query '<query>'
 ```
 
@@ -78,7 +78,7 @@ Connects to a specific MSSQL instance and executes a query. `-Verbose` shows con
 
 > **Linux:**
 
-```
+```bash
 mssqlclient.py <domain>/<user>@<target-ip>
 ```
 

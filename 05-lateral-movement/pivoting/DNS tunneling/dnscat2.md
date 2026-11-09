@@ -5,7 +5,7 @@
 ---
 ## Server Setup (Attack Host)
 
-```
+```bash
 git clone https://github.com/iagox86/dnscat2.git
 cd dnscat2/server/
 sudo gem install bundler

