@@ -8,11 +8,7 @@ Exchange of sensitive information without LDAPS is supported.
 It is also designed to be used transparently with a SOCKS proxy.
 
 ---
-### Authentication Methods
-
-bloodyAD supports multiple authentication mechanisms for different scenarios.
-
-#### Username and Password Authentication
+### Username and Password Authentication
 
 Standard authentication using cleartext credentials:
 
@@ -26,7 +22,7 @@ bloodyAD --host <DC_IP> -d <domain> -u '<username>' -p '<password>' [command]
 bloodyAD --host 10.10.10.10 -d lab.local -u 'john.doe' -p 'Password123!' get object administrator
 ```
 
-#### Pass-the-Hash (PtH)
+### Pass-the-Hash (PtH)
 
 Authenticate using NTLM hash (prefix with colon):
 
@@ -40,7 +36,7 @@ bloodyAD --host <DC_IP> -d <domain> -u '<username>' -p ':<NTLM_hash>' [command]
 bloodyAD --host 10.10.10.10 -d lab.local -u 'admin' -p ':e656e07c56d831611b577b160b259ad2' get object administrator
 ```
 
-#### Kerberos Authentication
+### Kerberos Authentication
 
 Use Kerberos tickets (requires FQDN):
 

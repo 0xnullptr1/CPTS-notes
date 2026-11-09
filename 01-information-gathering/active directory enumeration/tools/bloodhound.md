@@ -36,7 +36,7 @@ sudo bloodhound-python -u <user> -p <password> -ns <dc-ip> -d <domain> -c all --
 
 Run the BloodHound ingestor from a Linux attack host with valid domain credentials. `-ns` sets the nameserver to the domain controller, `-d` specifies the target domain, `-c all` runs all collection methods. Outputs JSON files in the current directory named by date and object type.
 
-```
+```bash
 zip -r <out-file>.zip *.json
 ```
 
@@ -66,13 +66,13 @@ Run SharpHound from a Windows attack host or domain-joined machine. `-c All` run
 ---
 ## GUI Setup
 
-```
+```bash
 sudo neo4j start
 ```
 
 Start the Neo4j database service before launching BloodHound. Required for the GUI to function.
 
-```
+```bash
 bloodhound
 ```
 
