@@ -6,31 +6,31 @@
 ---
 ## Start Docker
 
-```
+```bash
 sudo systemctl start docker
 ```
 
-```
+```bash
 cd ~/bloodhound-ce
 sudo docker compose up -d
 ```
 
 Start the containers.
 
-```
+```bash
 sudo docker logs bloodhound-ce-bloodhound-1 2>&1 | grep "Initial Password Set To:"
 ```
 
 Checks initial password for loggin in at http://localhost:8080
 
-```
+```bash
 sudo docker compose down -v
 ```
 
 Stops the containers, when starting again use the new password with the command above.
 ## Collection - Linux
 
-```
+```bash
 sudo bloodhound-python -u <user> -p <password> -ns <dc-ip> -d <domain> -c all --zip
 ```
 
