@@ -55,6 +55,12 @@ Run all ODAT modules against the target. Returns database names, versions, runni
 sqlplus <user>/<password>@<target>/<SID>
 ```
 
+Example:
+
+```bash
+sqlplus scott/tiger@192.0.2.60/ORCL
+```
+
 Connect to the Oracle database using SQLPlus.
 
 ```bash

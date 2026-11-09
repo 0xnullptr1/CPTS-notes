@@ -5,13 +5,13 @@
 ---
 ## Enumeration
 
-```
+```bash
 nc -nv <target> 873
 ```
 
 Connect to the Rsync service and grab the banner.
 
-```
+```bash
 rsync -av --list-only rsync://<target>/<share>
 ```
 
@@ -20,13 +20,13 @@ List all files in an open Rsync share without transferring anything. `-a` preser
 ---
 ## File Transfer
 
-```
+```bash
 rsync -av rsync://<target>/<share>
 ```
 
 Sync all files from the remote share to the current directory on the attack host.
 
-```
+```bash
 rsync -av -e ssh rsync://<target>/<share>
 rsync -av -e "ssh -p<port>" rsync://<target>/<share>
 ```
