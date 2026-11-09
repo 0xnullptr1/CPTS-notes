@@ -47,7 +47,7 @@ PowerShell equivalent of Responder for Windows-based attack hosts. `-NBNS Y` ena
 ## Host Discovery
 
 ```bash
-fping -asgq <CIDR>
+fping -asgq 172.16.5.0/16
 ```
 
 Ping sweep across the target subnet. `-a` shows only alive hosts, `-s` prints summary stats, `-g` generates the target list from the CIDR range, `-q` suppresses per-target output. Feed results into a host list for nmap.
@@ -58,7 +58,7 @@ for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
 
 Loop used on a Linux-based system to discover devices in a specified network segment.
 
-```
+```powershell
 for /L %i in (1 1 254) do ping 172.16.5.%i -n 1 -w 100 | find "Reply"
 ```
 
@@ -67,7 +67,7 @@ Loop used on a Windows-based system to discover devices in a specified network s
 ---
 ## Host Enumeration
 
-```
+```bash
 sudo nmap -v -A -iL <hosts-file> -oN <out-file>
 ```
 
@@ -76,7 +76,7 @@ Service and OS detection against discovered hosts. `-v` enables verbose output, 
 ---
 ## Kerberos User Enumeration
 
-```
+```bash
 kerbrute userenum -d <domain> --dc <dc-ip> <wordlist> -o <out-file>
 ```
 

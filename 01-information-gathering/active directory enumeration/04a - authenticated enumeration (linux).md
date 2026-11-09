@@ -6,19 +6,19 @@
 ---
 ## User and Group Enumeration
 
-```
+```bash
 rpcclient -U <user>%<password> <dc-ip>
 ```
 
 Authenticate to the DC via RPC. Run `enumdomusers` to list all users with their RIDs, `queryuser <RID>` to retrieve detailed attributes for a specific user, `enumdomgroups` to list all domain groups.
 
-```
+```bash
 nxc smb <dc-ip> -u <user> -p <password> --users
 ```
 
 Enumerate all domain users with their attributes via SMB. Replace `--users` with `--groups` to enumerate groups or `--loggedon-users` to list active sessions on the target host.
 
-```
+```bash
 python3 windapsearch.py --dc-ip <dc-ip> -u <user>@<domain> -p <password> --da
 ```
 
@@ -27,19 +27,19 @@ Enumerate members of the Domain Admins group. Replace `--da` with `-PU` to enume
 ---
 ## Share Enumeration
 
-```
+```bash
 nxc smb <dc-ip> -u <user> -p <password> --shares
 ```
 
 List accessible SMB shares on the target host.
 
-```
+```bash
 nxc smb <dc-ip> -u <user> -p <password> -M spider_plus --share '<share-name>'
 ```
 
 Recursively list all readable files within a share. `spider_plus` module digs through each accessible share and outputs a full file listing.
 
-```
+```bash
 smbmap -u <user> -p <password> -d <domain> -H <target-ip>
 ```
 

