@@ -7,20 +7,20 @@
 ---
 ## PSCredential Object
 
-```
+```powershell
 klist
 ```
 
 Confirms only a ticket for the current host is cached, with no ticket for the DC.
 
-```
+```powershell
 $SecPassword = ConvertTo-SecureString '<password>' -AsPlainText -Force
 $Cred = New-Object System.Management.Automation.PSCredential ('<domain>\<user>', $SecPassword)
 ```
 
 Creates a PSCredential object to explicitly pass credentials with subsequent commands.
 
-```
+```powershell
 get-domainuser -spn -credential $Cred | select samaccountname
 ```
 
@@ -31,25 +31,25 @@ Queries SPN accounts via PowerView by passing `$Cred` explicitly. Required for e
 
 > Requires a Windows attack host or jump host with RDP access and an elevated PowerShell console. Will not work from evil-winrm or PowerShell on Linux.
 
-```
+```powershell
 Enter-PSSession -ComputerName <target-fqdn> -Credential <domain>\<user>
 ```
 
 Establishes an initial WinRM session on the remote host.
 
-```
+```powershell
 Register-PSSessionConfiguration -Name <session-name> -RunAsCredential <domain>\<user>
 ```
 
 Registers a named PSSession configuration that will run as the specified credential, eliminating the need to pass `$Cred` per command. Triggers a credential popup.
 
-```
+```powershell
 Restart-Service WinRM
 ```
 
 Restarts WinRM to activate the new session configuration. Closes the current session.
 
-```
+```powershell
 Enter-PSSession -ComputerName <target-fqdn> -Credential <domain>\<user> -ConfigurationName <session-name>
 ```
 

