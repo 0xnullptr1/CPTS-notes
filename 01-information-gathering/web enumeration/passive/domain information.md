@@ -6,7 +6,7 @@
 ---
 ## SSL Certificate Enumeration
 
-```
+```bash
 curl -s https://crt.sh/\?q\=<domain>\&output\=json | jq
 ```
 
@@ -15,7 +15,7 @@ Query Certificate Transparency logs via crt.sh and format the output as JSON. Re
 ---
 ## Subdomain Resolution
 
-```
+```bash
 for i in $(cat subdomainlist); do host $i | grep "has address" | grep <domain> | cut -d" " -f1,4; done
 ```
 
@@ -24,7 +24,7 @@ Resolve each subdomain in the list and filter for entries pointing to the target
 ---
 ## Shodan Correlation
 
-```
+```bash
 for i in $(cat subdomainlist); do host $i | grep "has address" | grep <domain> | cut -d" " -f4 >> ip-addresses.txt; done
 for i in $(cat ip-addresses.txt); do shodan host $i; done
 ```
@@ -34,7 +34,7 @@ Extract resolved IPs into a list, then query each against Shodan. Surfaces open 
 ---
 ## DNS Enumeration
 
-```
+```bash
 dig any <domain>
 ```
 

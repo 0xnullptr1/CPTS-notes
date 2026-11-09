@@ -24,7 +24,7 @@ Detects WAF presence and identifies vendor. Run before aggressive fingerprinting
 ---
 ## Software Identification
 
-```
+```bash
 nikto -h <target> -Tuning b
 ```
 

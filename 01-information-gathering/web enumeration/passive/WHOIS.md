@@ -7,7 +7,7 @@
 ---
 ## Enumeration
 
-```
+```bash
 whois <domain>
 ```
 
