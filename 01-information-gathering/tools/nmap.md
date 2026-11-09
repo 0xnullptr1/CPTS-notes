@@ -111,13 +111,13 @@ SYN scan using random decoys to obscure the real source. Decoys work with SYN, A
 sudo nmap <target> -n -Pn -p <port> -O -S <spoofed-ip> -e tun0
 ```
 
+OS detection scan using a spoofed source IP (Nmap uses this address as the apparent source of the scan packets, instead of the real attack host). `-S` sets the source IP, `-e` specifies the interface.
+
 Example:
 
 ```bash
 sudo nmap 192.0.2.80 -n -Pn -p 80 -O -S 203.0.113.99 -e tun0
 ```
-
-OS detection scan using a spoofed source IP (Nmap uses this address as the apparent source of the scan packets, instead of the real attack host). `-S` sets the source IP, `-e` specifies the interface.
 
 ---
 ## DNS Proxying
