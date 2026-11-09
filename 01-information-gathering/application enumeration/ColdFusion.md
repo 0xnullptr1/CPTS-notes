@@ -27,7 +27,7 @@
 |Default paths|`/CFIDE/administrator/index.cfm`, `admin.cfm`|
 |Error messages|References to ColdFusion tags or functions|
 
-```
+```bash
 nmap -p- -sC -Pn <target> --open
 ```
 

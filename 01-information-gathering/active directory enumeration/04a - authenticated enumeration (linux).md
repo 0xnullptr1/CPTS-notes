@@ -45,7 +45,7 @@ smbmap -u <user> -p <password> -d <domain> -H <target-ip>
 
 Enumerate shares and permissions on the target within the context of the provided credentials. `-H` specifies the target host.
 
-```
+```bash
 smbmap -u <user> -p <password> -d <domain> -H <target-ip> -R '<share-name>' --dir-only
 ```
 
@@ -54,13 +54,13 @@ Recursively list directories within a specific share. `--dir-only` suppresses fi
 ---
 ## Remote Execution
 
-```
+```bash
 psexec.py <domain>/<user>:<password>@<target-ip>
 ```
 
 Spawn an interactive shell on the target via the `ADMIN$` share. Requires local admin rights. Drops a service binary on disk, it is noisy.
 
-```
+```bash
 wmiexec.py <domain>/<user>:<password>@<target-ip>
 ```
 

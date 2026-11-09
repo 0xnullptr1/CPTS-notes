@@ -6,8 +6,8 @@
 ---
 ## Discovery
 
-```
-curl -s http://<target> | grep Drupal
+```bash
+curl -s http://target.example.com | grep Drupal
 ```
 
 Confirm Drupal and identify version from page source.
@@ -15,8 +15,8 @@ Confirm Drupal and identify version from page source.
 ---
 ## Enumeration
 
-```
-droopescan scan drupal -u http://<target>
+```bash
+droopescan scan drupal -u http://target.example.com
 ```
 
 Fingerprints Drupal version, installed modules, themes, and known vulnerabilities.

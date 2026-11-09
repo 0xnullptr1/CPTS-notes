@@ -88,31 +88,31 @@
 
 Dsquery is a built-in Active Directory query tool present on any host with the AD Domain Services role installed. The `dsquery.dll` is available on all modern Windows systems at `C:\Windows\System32\dsquery.dll`. Requires elevated privileges or a SYSTEM-level command prompt.
 
-```
+```powershell
 dsquery user
 ```
 
 List all user objects in the domain.
 
-```
+```powershell
 dsquery computer
 ```
 
 List all computer objects in the domain.
 
-```
+```powershell
 dsquery * "CN=Users,DC=<domain>,DC=<tld>"
 ```
 
 Wildcard query to list all objects within a specific OU or container.
 
-```
+```powershell
 dsquery * -filter "(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=32))" -attr distinguishedName userAccountControl
 ```
 
 Find users with the `PASSWD_NOTREQD` flag set in their UAC attribute. These accounts do not require a password to authenticate.
 
-```
+```powershell
 dsquery * -filter "(userAccountControl:1.2.840.113556.1.4.803:=8192)" -limit 5 -attr sAMAccountName
 ```
 

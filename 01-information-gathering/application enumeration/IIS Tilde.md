@@ -6,7 +6,7 @@
 ---
 ## Tilde Enumeration
 
-```
+```bash
 java -jar iis_shortname_scanner.jar 0 5 http://<target>/
 ```
 
@@ -17,13 +17,13 @@ Automates sending character combinations via HTTP to identify valid short file n
 
 If direct access to the discovered short name is blocked (e.g. `TRANSF~1.ASP`), brute-force the full filename using a targeted wordlist.
 
-```
+```bash
 egrep -r ^transf /usr/share/wordlists/* | sed 's/^[^:]*://' > /tmp/list.txt
 ```
 
 Filters wordlists for entries starting with the known short name prefix and saves them to a custom list.
 
-```
+```bash
 gobuster dir -u http://<target>/ -w /tmp/list.txt -x .aspx,.asp
 ```
 

