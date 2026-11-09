@@ -1,4 +1,5 @@
- **Overview**
+ **Overview:**
+ 
 Ligolo-ng is a tunneling/pivoting tool that gives **routable access** to networks behind a compromised host, without proxychains. It has two parts:
 
 - **Proxy**: runs on the Kali host. This is the server that agents connect back to, and where tunnels/routes are controlled from an interactive console.
@@ -199,7 +200,7 @@ sudo ip link set ligolo up
 start --tun ligolo
 ```
 
-**4. Add the "magic" route**
+**4. Add the route**
 
 ```bash
 sudo ip route add 240.0.0.1/32 dev ligolo
