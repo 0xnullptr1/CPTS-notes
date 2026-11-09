@@ -14,13 +14,13 @@
 ---
 ## Foothold Host
 
-```
+```powershell
 regsvr32.exe SocksOverRDP-Plugin.dll
 ```
 
 Load the SocksOverRDP plugin on the foothold host. On success, the plugin confirms it is enabled and listening on `127.0.0.1:1080`. Connect to the next target via `mstsc.exe` to activate the tunnel.
 
-```
+```powershell
 netstat -antb | findstr 1080
 ```
 

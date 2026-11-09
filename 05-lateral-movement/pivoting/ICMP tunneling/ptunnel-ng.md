@@ -5,13 +5,13 @@
 ---
 ## Installation
 
-```
+```bash
 git clone https://github.com/utoni/ptunnel-ng.git
 ```
 
 Clone the repository on the attack host, then run `autogen.sh` from the root of the ptunnel-ng directory to build the binary.
 
-```
+```bash
 scp -r ptunnel-ng ubuntu@<target>:~/
 ```
 
@@ -20,7 +20,7 @@ Transfer the full repository to the pivot host. `-r` transfers the directory rec
 ---
 ## Server (Pivot Host)
 
-```
+```bash
 sudo ./ptunnel-ng -r<target> -R22
 ```
 
@@ -29,7 +29,7 @@ Start the ptunnel-ng server on the pivot host. `-r` IP address the server will a
 ---
 ## Client (Attack Host)
 
-```
+```bash
 sudo ./ptunnel-ng -p<target> -l2222 -r<target> -R22
 ```
 
@@ -38,13 +38,13 @@ Connect to the ptunnel-ng server from the attack host. `-p` pivot host IP (serve
 ---
 ## SSH Through the Tunnel
 
-```
+```bash
 ssh -p2222 -l ubuntu 127.0.0.1
 ```
 
 Connect via SSH through the ICMP tunnel. Traffic sent to local port `2222` is encapsulated in ICMP and forwarded to port `22` on the pivot host.
 
-```
+```bash
 ssh -D 9050 -p2222 -l ubuntu 127.0.0.1
 ```
 
