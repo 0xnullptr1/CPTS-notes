@@ -19,13 +19,13 @@ Presence of `/wp-admin` and `/wp-content` confirms a WordPress installation.
 ---
 ## Enumeration
 
-```
+```bash
 curl -s http://<target> | grep WordPress
 ```
 
 Confirm WordPress and identify version from page source.
 
-```
+```bash
 curl -s http://<target> | grep themes
 curl -s http://<target> | grep plugins
 ```
@@ -35,13 +35,13 @@ Identify active themes and plugins. Use version numbers found to search for know
 ---
 ## WPScan
 
-```
+```bash
 sudo wpscan --url http://<target> --enumerate
 ```
 
 Enumerate WordPress users, plugins, themes, and vulnerabilities.
 
-```
+```bash
 sudo wpscan --password-attack xmlrpc -t 20 -U <user> -P /usr/share/wordlists/rockyou.txt --url http://<target>
 ```
 

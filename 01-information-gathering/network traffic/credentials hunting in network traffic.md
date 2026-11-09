@@ -39,7 +39,7 @@ To search for strings manually: `Edit > Find Packet` → search for `passw` or s
 ---
 ## Pcredz
 
-```
+```bash
 ./Pcredz -f <file>.pcapng -t -v
 ```
 

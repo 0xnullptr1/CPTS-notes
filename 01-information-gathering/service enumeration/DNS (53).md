@@ -42,25 +42,35 @@
 ---
 ## Enumeration
 
-```
+```bash
 dig ns <domain> @<nameserver>
 ```
 
 Query for NS records. Returns the authoritative nameservers responsible for the target domain.
 
-```
+```bash
 dig any <domain> @<nameserver>
 ```
 
 Query for all available record types at once. Returns a combined view of A, MX, NS, TXT, SOA, and any other records the server will expose.
 
-```
+```bash
 dig axfr <domain> @<nameserver>
 ```
 
 Request a full zone transfer. AXFR is a replication mechanism that dumps all records in a zone. Succeeds only if the server allows transfers from the requesting host, making it a high-value misconfiguration to test.
 
+Example:
+
+```bash
+dig axfr example.com @ns1.example.com
 ```
+
+---
+
+## Brute force
+
+```bash
 dnsenum --dnsserver <nameserver> --enum -p 0 -s 0 -o found_subdomains.txt -f ~/subdomains.list <domain>
 ```
 
