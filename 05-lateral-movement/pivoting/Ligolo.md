@@ -4,14 +4,12 @@ Ligolo-ng is a tunneling/pivoting tool that gives **routable access** to network
 - **Proxy**: runs on the Kali host. This is the server that agents connect back to, and where tunnels/routes are controlled from an interactive console.
 - **Agent**: a small binary dropped on the compromised target. It connects back to the proxy and acts as the relay for traffic.
 
-Instead of SOCKS-proxying each tool individually, Ligolo creates a **TUN interface** on the Kali machine (e.g. `tunnel1`). Once a route is added on Kali pointing a target subnet at that TUN interface, your traffic is transparently encapsulated, sent through the agent, and injected into the real network on the other side — so you can run `nmap`, `netexec`, `smbclient`, etc. **natively**, like you're sitting on that subnet.
+Instead of SOCKS-proxying each tool individually, Ligolo creates a **TUN interface** on the Kali machine (e.g. `tunnel1`). Once a route is added on Kali pointing a target subnet at that TUN interface, the traffic is transparently encapsulated, sent through the agent, and executed into the real network on the other side so `nmap`, `netexec`, `smbclient`, can be run **natively**, like the Kali host is sitting on that subnet.
 
-### Why "layers"?
-
-Each pivot is a separate hop/layer, and each layer gets its **own TUN interface and its own route** on Kali:
+Each pivot is a separate layer, and each layer gets its **own TUN interface and its own route** on Kali:
 
 ```
-Kali (10.10.14.14) ──TUN0 (VPN to exam range)
+Kali (10.10.14.14) TUN0 
    │
    │  agent1 connects back to 10.10.14.14:11601
    ▼
@@ -26,14 +24,16 @@ Target 1 (dual-homed foothold)
    ▼
 Target 2 (second pivot)
    External/reachable IP: 172.16.5.20 (reachable via tunnel1)
-   Internal IP: 172.16.6.15  ← a DEEPER subnet, invisible from Kali directly
+   Internal IP: 172.16.6.15 deeper subnet, invisible from Kali directly
    │
    │  route added: 172.16.6.0/24 dev tunnel2  (Layer 2)
    ▼
 Subnet only Target 2 can see
 ```
 
-So: **Layer 1** = your direct pivot (Kali ↔ Target 1's internal network). **Layer 2** = a pivot-through-a-pivot (Kali → tunnel1 → Target 1 → Target 2's internal network via tunnel2). Each new layer needs: a new TUN device, a new agent connecting to the _previous hop's_ reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
+**Layer 1** = direct pivot (Kali ↔ Target 1's internal network).   
+**Layer 2** = a pivot-through-a-pivot (Kali → tunnel1 → Target 1 → Target 2's internal network via tunnel2). 
+Each new layer needs: a new TUN device, a new agent connecting to the _previous hop's_ reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
 
 ---
 
