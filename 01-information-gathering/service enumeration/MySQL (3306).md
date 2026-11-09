@@ -18,7 +18,7 @@
 ---
 ## Enumeration
 
-```
+```bash
 sudo nmap -sV -sC -p3306 --script mysql* <target>
 ```
 
@@ -27,8 +27,12 @@ Run all MySQL NSE scripts against the target. Returns version, auth methods, and
 ---
 ## Connection
 
-```
+```bash
 mysql -u <user> -p<password> -h <target>
+```
+
+```bash
+mysql -u admin -pPassword123! -h 127.0.0.1 customer_db
 ```
 
 Connect to a remote MySQL server. No space between `-p` and the password.

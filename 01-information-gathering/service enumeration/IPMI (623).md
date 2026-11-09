@@ -6,16 +6,16 @@
 ---
 ## BMC Default Credentials
 
-|Product|Username|Password|
-|---|---|---|
-|Dell iDRAC|`root`|`calvin`|
-|HP iLO|`Administrator`|Randomized 8-character string (uppercase + numbers)|
-|Supermicro IPMI|`ADMIN`|`ADMIN`|
+| Product         | Username        | Password                                            |
+| --------------- | --------------- | --------------------------------------------------- |
+| Dell iDRAC      | `root`          | `calvin`                                            |
+| HP iLO          | `Administrator` | Randomized 8-character string (uppercase + numbers) |
+| Supermicro IPMI | `ADMIN`         | `ADMIN`                                             |
 
 ---
 ## Hash Dump
 
-```
+```bash
 msf > use auxiliary/scanner/ipmi/ipmi_dumphashes
 ```
 

