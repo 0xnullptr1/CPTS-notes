@@ -5,7 +5,7 @@
 ---
 ## Syntax
 
-```
+```bash
 nmap <scan-types> <options> <target>
 ```
 
@@ -87,7 +87,7 @@ nmap <scan-types> <options> <target>
 |`-oG <file>`|Save in grepable format|
 |`-oX <file>`|Save in XML format|
 
-```
+```bash
 xsltproc target.xml -o target.html
 ```
 
@@ -101,14 +101,20 @@ Convert XML output to HTML for browser viewing.
  - IPS extends IDS by actively blocking detected threats based on signature matching.
 - The TCP ACK scan (`-sA`) is harder to filter than SYN or connect scans because it sends only the ACK flag, which many firewalls and IDS/IPS treat as established-connection traffic.
 
-```
+```bash
 sudo nmap <target> -p <port> -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5
 ```
 
 SYN scan using random decoys to obscure the real source. Decoys work with SYN, ACK, ICMP, and OS detection scans.
 
-```
+```bash
 sudo nmap <target> -n -Pn -p <port> -O -S <spoofed-ip> -e tun0
+```
+
+Example:
+
+```bash
+sudo nmap 192.0.2.80 -n -Pn -p 80 -O -S 203.0.113.99 -e tun0
 ```
 
 OS detection scan using a spoofed source IP (Nmap uses this address as the apparent source of the scan packets, instead of the real attack host). `-S` sets the source IP, `-e` specifies the interface.
@@ -118,20 +124,20 @@ OS detection scan using a spoofed source IP (Nmap uses this address as the appar
 
  - DNS servers are often more trusted by firewalls than arbitrary external hosts. Using `TCP port 53` as a source port can cause firewall rules and IDS/IPS filters to treat packets as legitimate DNS traffic and pass them through.
 
-```
+```bash
 sudo nmap <target> -p <port> -sS -Pn -n --disable-arp-ping --packet-trace
 ```
 
 SYN scan against a filtered port to confirm its state.
 
-```
+```bash
 sudo nmap <target> -p <port> -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
 ```
 
 Repeat using source port `53` to bypass firewall rules trusting DNS traffic.
 
-```
-ncat -nv --source-port 53 <target> <port>
+```bash
+nc -nv --source-port 53 <target> <port>
 ```
 
 Connect to the filtered port using source port `53` once the firewall is confirmed to accept it.

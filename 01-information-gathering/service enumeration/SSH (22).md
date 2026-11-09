@@ -20,25 +20,25 @@
 ---
 ## Enumeration
 
-```
+```bash
 ssh <user>@<FQDN/IP>
 ```
 
 Connect to SSH.
 
-```
+```bash
 ssh -i private.key <user>@<FQDN/IP>
 ```
 
 Connect to the SSH service using the private key.
 
-```
+```bash
 ssh -v <user>@<target> -o PreferredAuthentications=password
 ```
 
 Force password authentication regardless of server preference. Useful for testing if password auth is permitted and for brute-force staging.
 
-```
+```bash
 ./ssh-audit.py <target>
 ```
 
@@ -46,8 +46,8 @@ Audit SSH client and server configuration. Returns supported algorithms, protoco
 
 ## Brute Force Login
 
-```
-hydra -L user.list -P password.list ssh://<target>
+```bash
+hydra -L user.list -P /usr/share/wordlists/rockyou.txt ssh://<target>
 ```
 
 Utilizes the tool `Hydra` to brute force SSH.
