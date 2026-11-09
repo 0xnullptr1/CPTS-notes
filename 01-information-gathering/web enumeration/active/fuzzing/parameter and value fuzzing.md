@@ -5,16 +5,16 @@
 ---
 ## GET Parameters
 
-```
-ffuf -w /home/kali/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php?FUZZ=<test-value> -fs <size>
+```bash
+ffuf -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php?FUZZ=<test-value> -fs <size>
 ```
 
 Fuzzes GET parameter names. `-fs` filters response size to hide false positives.
 
 ## POST Parameters
 
-```
-ffuf -w /home/kali/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php -X POST -d 'FUZZ=<test-value>' -H 'Content-Type: application/x-www-form-urlencoded' -fs <size>
+```bash
+ffuf -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php -X POST -d 'FUZZ=<test-value>' -H 'Content-Type: application/x-www-form-urlencoded' -fs <size>
 ```
 
 Fuzzes POST parameter names.
@@ -22,8 +22,8 @@ Fuzzes POST parameter names.
 ---
 ## Value Fuzzing
 
-```
-ffuf -w <wordlist>:FUZZ -u http://<target>:<port>/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs <size>
+```bash
+ffuf -w  /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://<target>:<port>/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs <size>
 ```
 
 Fuzzes parameter values after discovering a valid parameter name.
@@ -31,7 +31,7 @@ Fuzzes parameter values after discovering a valid parameter name.
 ---
 ## Manual Testing
 
-```
+```bash
 curl http://<target>:<port>/admin/admin.php -X POST -d 'id=<value>' -H 'Content-Type: application/x-www-form-urlencoded'
 ```
 

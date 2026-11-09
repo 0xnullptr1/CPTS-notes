@@ -21,7 +21,7 @@ Alternative to ffuf to discover directories. The `-u` flag specifies the target 
 ## Extension Fuzzing
 
 ```bash
-ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/indexFUZZ
+ffuf -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/indexFUZZ
 ```
 
 Fuzzes file extensions (e.g., index.php, index.html).
@@ -30,7 +30,7 @@ Fuzzes file extensions (e.g., index.php, index.html).
 ## Page Fuzzing
 
 ```bash
-ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/blog/FUZZ.php
+ffuf -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/blog/FUZZ.php
 ```
 
 Fuzzes page names within a known directory.
@@ -39,7 +39,7 @@ Fuzzes page names within a known directory.
 ## Recursive Fuzzing
 
 ```bash
-ffuf -w /home/kali/SecLists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/FUZZ -recursion -recursion-depth 1 -e .php -v
+ffuf -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-small.txt:FUZZ -u http://<target>:<port>/FUZZ -recursion -recursion-depth 1 -e .php -v
 ```
 
 Recursively fuzzes directories. `-recursion-depth` controls depth, `-e` adds extensions, `-v` verbose output.
