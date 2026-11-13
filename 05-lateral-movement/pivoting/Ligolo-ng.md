@@ -7,35 +7,6 @@ Ligolo-ng is a tunneling/pivoting tool that gives **routable access** to network
 
 Instead of SOCKS-proxying each tool individually, Ligolo creates a **TUN interface** on the Kali machine (e.g. `tunnel1`). Once a route is added on Kali pointing a target subnet at that TUN interface, the traffic is transparently encapsulated, sent through the agent, and executed into the real network on the other side so `nmap`, `netexec`, `smbclient`, can be run **natively**, like the Kali host is sitting on that subnet.
 
-Each pivot is a separate layer, and each layer gets its **own TUN interface and its own route** on Kali:
-
-```
-Kali (10.10.14.14) TUN0 
-   │
-   │  agent1 connects back to 10.10.14.14:11601
-   ▼
-Target 1 (dual-homed foothold)
-   External IP: 10.10.10.5   ← reachable from Kali via TUN0
-   Internal IP: 172.16.5.10  ← reachable only from Target 1 itself
-   │
-   │  route added: 172.16.5.0/24 dev tunnel1  (Layer 1)
-   │
-   │  agent2 (on Target 2) connects back to Target 1's internal IP
-   │  because Target 1 is now acting as a relay for that subnet
-   ▼
-Target 2 (second pivot)
-   External/reachable IP: 172.16.5.20 (reachable via tunnel1)
-   Internal IP: 172.16.6.15 deeper subnet, invisible from Kali directly
-   │
-   │  route added: 172.16.6.0/24 dev tunnel2  (Layer 2)
-   ▼
-Subnet only Target 2 can see
-```
-
-**Layer 1** = direct pivot (Kali ↔ Target 1's internal network).   
-**Layer 2** = a pivot-through-a-pivot (Kali → tunnel1 → Target 1 → Target 2's internal network via tunnel2). 
-Each new layer needs: a new TUN device, a new agent connecting to the **previous hop**'s reachable IP (not directly to Kali), a `start --tun` in the proxy console, and a new `ip route add` on Kali. Traffic for the deepest subnet transparently rides through every TUN interface stacked on top of it.
-
 ---
 ## 1st Pivot on 1st internal range
 
